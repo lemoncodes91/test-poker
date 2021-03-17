@@ -5,6 +5,7 @@ import com.synacy.poker.hand.Hand;
 import com.synacy.poker.hand.HandType;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @see <a href="https://en.wikipedia.org/wiki/List_of_poker_hands#High_card">What is a High Card?</a>
@@ -26,7 +27,11 @@ public class HighCard extends Hand {
      */
     @Override
     public String toString() {
-        return "";
+    	return this.cards.stream()
+    						 .map(card -> {
+    							 return card.getRank().toString();
+    						 })
+    						 .collect(Collectors.joining(","));
     }
 
 }
