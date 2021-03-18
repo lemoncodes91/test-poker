@@ -32,7 +32,7 @@ public class StraightFlushCardHandHandler extends AbstractHandler {
 		//populates cardRankMap and cardRankSuit
 		mapCardHard(playerCards, communityCards);
 		
-		if (isCardHandIdentifieable()) {
+		if (isCardHandIdentifieable()) { //TODO
 			boolean isFlush = IntStream.range(0, cardSuitMap.length).anyMatch(value -> cardSuitMap[value] >= MAX_HAND_CARDS);
 			boolean isStraight = false;
 			List<Integer> cardRankIndexes = new ArrayList<Integer>();
@@ -56,10 +56,12 @@ public class StraightFlushCardHandHandler extends AbstractHandler {
 				
 			}
 			
+			//TODO
 			if (cardRankIndexes.isEmpty()) {
 				isStraight = false;
 			}
-			
+
+			//TODO
 			//specific to streel wheel five high
 			boolean isFiveHigh = isStraight && cardRankIndexes.get(0) == CardRank.FIVE.ordinal();
 			//if fivehigh, determine if card combination has Ace
@@ -69,10 +71,11 @@ public class StraightFlushCardHandHandler extends AbstractHandler {
 				}
 			}
 			
+			//TODO
 			//cardStraightCount is 5, then it is straight 
 			isStraight = cardRankIndexes.size() >= MAX_HAND_CARDS;
 			
-			
+			//TODO
 			if (isStraight && isFlush) {
 				
 				int cardSuitIndex = IntStream.range(0, cardSuitMap.length).filter(value -> cardSuitMap[value] != 0).findFirst().getAsInt();
@@ -80,12 +83,14 @@ public class StraightFlushCardHandHandler extends AbstractHandler {
 				straightFlushCards = cardRankIndexes.stream()
 													.limit(MAX_HAND_CARDS)
 													.map(indexes -> {
+														//TODO
 														CardSuit[] suits = CardSuit.values();
 														CardSuit suit = Arrays.stream(suits)
 																			  .filter(s -> s.ordinal() == cardSuitIndex)
 																			  .findFirst()
 																			  .get();
 														
+														//TODO
 														CardRank[] ranks = CardRank.values();
 														CardRank rank = Arrays.stream(ranks)
 																			  .filter(r -> r.ordinal() == indexes)
@@ -99,12 +104,12 @@ public class StraightFlushCardHandHandler extends AbstractHandler {
 				return new StraightFlush(straightFlushCards);
 			} else {
 				if (next != null) {
-					return next.handle(playerCards, communityCards);
+					return next.handle(playerCards, communityCards); //TODO
 				}
 			}
 		} else {
 			if (next != null) {
-				return next.handle(playerCards, communityCards);
+				return next.handle(playerCards, communityCards); //TODO
 			}
 		}
 		
