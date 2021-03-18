@@ -1,9 +1,11 @@
 package com.synacy.poker.hand.types;
 
 import com.synacy.poker.card.Card;
+import com.synacy.poker.card.CardRank;
 import com.synacy.poker.hand.HandType;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @see <a href="https://en.wikipedia.org/wiki/List_of_poker_hands#Straight_flush">What is a Straight Flush?</a>
@@ -25,7 +27,13 @@ public class StraightFlush extends Straight {
      */
     @Override
     public String toString() {
-        return "";
+    	CardRank rank = getCards().get(0).getRank();
+    	 if( rank == CardRank.ACE) {
+    		 return "Royal Flush";
+    	 } else {
+    		 return "Straight Flush (" + rank.toString() + " High)";
+    				 
+    	 }
     }
 
 }

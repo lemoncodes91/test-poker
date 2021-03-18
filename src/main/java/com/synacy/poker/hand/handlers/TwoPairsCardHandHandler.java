@@ -1,4 +1,4 @@
-package com.synacy.poker.hand.processors;
+package com.synacy.poker.hand.handlers;
 
 import java.util.Collections;
 import java.util.List;
@@ -8,15 +8,15 @@ import com.synacy.poker.hand.Hand;
 import com.synacy.poker.hand.types.ThreeOfAKind;
 import com.synacy.poker.hand.types.TwoPair;
 
-public class TwoPairsProcessor extends HandValueProcessor {
+public class TwoPairsCardHandHandler extends AbstractHandler {
 
-	public TwoPairsProcessor(HandValueProcessor next) {
+	public TwoPairsCardHandHandler(AbstractHandler next) {
 		super(next);
 		// TODO Auto-generated constructor stub
 	}
 
 	@Override
-	public Hand process(List<Card> playerCards, List<Card> communityCards) {
+	public Hand handle(List<Card> playerCards, List<Card> communityCards) {
 		boolean isTwoPairs = false;
 		List<Card> firstPairCards = Collections.emptyList();
 		List<Card> secondPairCards = Collections.emptyList();
@@ -28,7 +28,7 @@ public class TwoPairsProcessor extends HandValueProcessor {
 			return new TwoPair(firstPairCards, secondPairCards, otherCards);
 		} else {
 			if (next != null) {
-				return next.process(playerCards, communityCards);
+				return next.handle(playerCards, communityCards);
 			}
 		}
 		return null;

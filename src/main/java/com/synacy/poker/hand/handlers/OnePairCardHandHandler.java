@@ -1,4 +1,4 @@
-package com.synacy.poker.hand.processors;
+package com.synacy.poker.hand.handlers;
 
 import java.util.Collections;
 import java.util.List;
@@ -7,14 +7,14 @@ import com.synacy.poker.card.Card;
 import com.synacy.poker.hand.Hand;
 import com.synacy.poker.hand.types.OnePair;
 
-public class OnePairProcessor extends HandValueProcessor {
+public class OnePairCardHandHandler extends AbstractHandler {
 
-	public OnePairProcessor(HandValueProcessor next) {
+	public OnePairCardHandHandler(AbstractHandler next) {
 		super(next);
 	}
 
 	@Override
-	public Hand process(List<Card> playerCards, List<Card> communityCards) {
+	public Hand handle(List<Card> playerCards, List<Card> communityCards) {
 		
 		//check if onepair
 		boolean isOnePair = false;
@@ -25,7 +25,7 @@ public class OnePairProcessor extends HandValueProcessor {
 			return new OnePair(pairCards, otherCards);
 		} else {
 			if (next != null) {
-				return next.process(playerCards, communityCards);
+				return next.handle(playerCards, communityCards);
 			}
 		}
 		
