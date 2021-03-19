@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.synacy.poker.card.Card;
 import com.synacy.poker.hand.Hand;
+import com.synacy.poker.hand.HandType;
 import com.synacy.poker.hand.types.FullHouse;
 import com.synacy.poker.hand.types.ThreeOfAKind;
 
@@ -31,6 +32,12 @@ public class ThreeOfAKindCardHandHandler extends AbstractHandler {
 			}
 		}
 		return null;
+	}
+
+	@Override
+	public HandType getHandType() {
+		// TODO Auto-generated method stub
+		return HandType.THREE_OF_A_KIND;
 	}
 
 }

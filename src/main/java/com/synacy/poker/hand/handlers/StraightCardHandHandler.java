@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.synacy.poker.card.Card;
 import com.synacy.poker.hand.Hand;
+import com.synacy.poker.hand.HandType;
 import com.synacy.poker.hand.types.FullHouse;
 import com.synacy.poker.hand.types.Straight;
 
@@ -30,6 +31,12 @@ public class StraightCardHandHandler extends AbstractHandler {
 			}
 		}
 		return null;
+	}
+
+	@Override
+	public HandType getHandType() {
+		// TODO Auto-generated method stub
+		return HandType.STRAIGHT;
 	}
 
 }

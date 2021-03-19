@@ -1,12 +1,6 @@
 package com.synacy.poker.hand.handlers;
 
-import static org.junit.Assert.*;
-
-import com.synacy.poker.card.Card;
-import com.synacy.poker.card.CardRank;
-import com.synacy.poker.card.CardSuit;
-import com.synacy.poker.hand.Hand;
-import com.synacy.poker.hand.HandType;
+import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,10 +14,16 @@ import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.synacy.poker.card.Card;
+import com.synacy.poker.card.CardRank;
+import com.synacy.poker.card.CardSuit;
+import com.synacy.poker.hand.Hand;
+import com.synacy.poker.hand.HandType;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class StraightFlushCardHandHandlerTest {
-
+	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 	}
@@ -156,4 +156,54 @@ public class StraightFlushCardHandHandlerTest {
 		assertEquals(HandType.STRAIGHT_FLUSH, hand.getHandType());
 		assertEquals("Straight Flush (5 High)", hand.toString());
 	}
+	
+	/*
+	 * less than 5 combination cards 
+	 * 
+	 */
+	@Test
+	public void test_straight_flush_less_than_five() {
+		List<Card> player  = new ArrayList<Card>();
+		List<Card> community  = new ArrayList<Card>();
+		CardSuit suit = CardSuit.SPADES;
+		
+		//Player Cards
+		player.add(new Card(CardRank.QUEEN, suit));
+		player.add(new Card(CardRank.ACE, suit));
+		
+		//Community Cards
+		community.add(new Card(CardRank.KING, suit));
+		
+		AbstractHandler sfHandler = new StraightFlushCardHandHandler(null);
+		Hand hand = sfHandler.handle(player, community);
+		assertEquals(null, hand);
+	}
+	
+	/*
+	 * Not straight flush 
+	 * 
+	 */
+	@Test
+	public void test_not_straight_flush() {
+		List<Card> player  = new ArrayList<Card>();
+		List<Card> community  = new ArrayList<Card>();
+		
+		//Player Cards
+		player.add(new Card(CardRank.QUEEN, CardSuit.CLUBS));
+		player.add(new Card(CardRank.ACE, CardSuit.DIAMONDS));
+		
+		//Community Cards
+		community.add(new Card(CardRank.JACK, CardSuit.SPADES));
+		community.add(new Card(CardRank.FOUR, CardSuit.CLUBS));
+		community.add(new Card(CardRank.SIX, CardSuit.CLUBS));
+		community.add(new Card(CardRank.FOUR, CardSuit.DIAMONDS));
+		community.add(new Card(CardRank.SEVEN, CardSuit.HEARTS));
+		
+		AbstractHandler sfHandler = new StraightFlushCardHandHandler(null);
+		Hand hand = sfHandler.handle(player, community);
+		
+		assertEquals(null, hand);
+	}
+	
+	
 }

@@ -1,6 +1,7 @@
 package com.synacy.poker.hand.types;
 
 import com.synacy.poker.card.Card;
+import com.synacy.poker.card.CardRank;
 import com.synacy.poker.hand.Hand;
 import com.synacy.poker.hand.HandType;
 
@@ -28,7 +29,15 @@ public class FourOfAKind extends Hand {
      */
     @Override
     public String toString() {
-        return "";
+    	CardRank rank = fourOfAKindCards.get(0).getRank();
+    	CardRank kicker = otherCards.get(0).getRank();
+    	StringBuilder builder = new StringBuilder();
+    	builder.append("Quads ");
+    	builder.append("("+ rank.toString() +")");
+    	builder.append(" - ");
+    	builder.append(kicker.toString());
+    	builder.append(" High");
+        return builder.toString();
     }
 
 }

@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.synacy.poker.card.Card;
 import com.synacy.poker.hand.Hand;
+import com.synacy.poker.hand.HandType;
 import com.synacy.poker.hand.types.OnePair;
 
 public class OnePairCardHandHandler extends AbstractHandler {
@@ -31,6 +32,12 @@ public class OnePairCardHandHandler extends AbstractHandler {
 		
 		return null;
 		
+	}
+
+	@Override
+	public HandType getHandType() {
+		// TODO Auto-generated method stub
+		return HandType.ONE_PAIR;
 	}
 
 }

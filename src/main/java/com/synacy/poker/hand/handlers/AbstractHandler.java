@@ -1,12 +1,17 @@
 package com.synacy.poker.hand.handlers;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import com.synacy.poker.card.Card;
 import com.synacy.poker.hand.Hand;
+import com.synacy.poker.hand.HandType;
+import com.synacy.poker.hand.types.HighCard;
+import com.synacy.poker.hand.types.StraightFlush;
 
 public abstract class AbstractHandler {
 
@@ -28,13 +33,21 @@ public abstract class AbstractHandler {
 	}
 	
 	/**
-	 * Abstract process will be defined per processor`
+	 * Handles the processing for a HandType
+	 * (e.g {@link StraightFlush}, {@link HighCard})
 	 * 
 	 * @param playerCards
 	 * @param communityCards
 	 * @return
 	 */
 	public abstract Hand handle(List<Card> playerCards, List<Card> communityCards);
+	
+	/**
+	 * Gets the HandType of the Handler
+	 * (e.g {@link StraightFlush}, {@link HighCard})
+	 * @return
+	 */
+	public abstract HandType getHandType();
 	
 	/**
 	 * Get the best Five Card Combination from players cards (2) and community cards (5)
@@ -60,10 +73,9 @@ public abstract class AbstractHandler {
 	 * @param playerCards
 	 * @param communityCards
 	 */
-	public void mapCardHard(List<Card> playerCards, List<Card> communityCards) {
-		//reset the bitmaps
-		Arrays.fill(cardRankMap, 0);
-		Arrays.fill(cardSuitMap, 0);
+	public void mapCardHand(List<Card> playerCards, List<Card> communityCards) {
+		
+		resetCardMapping();
 		
 		Stream.concat(playerCards.stream(), communityCards.stream())
 			  .forEach((card) -> {
@@ -73,11 +85,35 @@ public abstract class AbstractHandler {
 	}
 	
 	/**
+	 * Get the indices of the card rank bitmap
+	 * 
+	 * @return
+	 */
+	public List<Integer> getCardRankMapIndices() {
+		 boolean isStraightOrStraightFlush = getHandType() == HandType.STRAIGHT_FLUSH ||  getHandType() == HandType.STRAIGHT; 
+		 List<Integer> cardRankIndexes = IntStream.range(0, cardRankMap.length)
+				 .filter(value -> {
+					 //When Straight or Straight Flush
+					 //Values on the map should only have 1 per Rank
+					 if (isStraightOrStraightFlush)
+						 return cardRankMap[value] ==  1;
+					 //Otherwise, it can be other than Straight or Straight Flush
+					 //(e.g) Pair, Two Pair, Three Pair, etc
+					 else 
+						 return cardRankMap[value] !=  0;
+				 }).boxed().collect(Collectors.toList());
+		 
+		return cardRankIndexes;
+	}
+	
+	/**
 	 * Checks whether player and community cards are identifiable
 	 * @return
 	 */
 	public boolean isCardHandIdentifieable() {
-		return Arrays.stream(cardRankMap).filter(value -> value != 0).count() > MAX_HAND_CARDS;
+		
+		//return Arrays.stream(cardRankMap).filter(value -> value != 0).count() > MAX_HAND_CARDS;
+		return IntStream.range(0, cardRankMap.length).filter(index -> cardRankMap[index] != 0).sum() > MAX_HAND_CARDS;
 	}
 	
 	/**
@@ -92,5 +128,30 @@ public abstract class AbstractHandler {
 				 // sort card rank by priority
 				 .sorted((card1, card2) -> card1.getRank().getPriority() - card2.getRank().getPriority())
 				 .collect(Collectors.toList());
+	}
+	
+	/**
+	 * Moves to the next handler on the chain
+	 * Otherwise, chain is terminated
+	 * 
+	 * @param playerCards
+	 * @param communityCards
+	 * @return
+	 */
+	public Hand next(List<Card> playerCards, List<Card> communityCards) {
+		if (next != null) {
+			return next.handle(playerCards, communityCards);
+		} 
+		
+		return null;
+	}
+	
+	/**
+	 * Resets the cardRank and cardSuit bitmaps for every evaluation
+	 */
+	private void resetCardMapping() {
+		//reset the bitmaps
+		Arrays.fill(cardRankMap, 0);
+		Arrays.fill(cardSuitMap, 0);
 	}
 }
