@@ -29,10 +29,8 @@ public class StraightFlushCardHandHandler extends AbstractHandler {
 	}
 
 	@Override
-	public Hand identifyHand(List<Card> playerCards, List<Card> communityCards) throws HandException {
-		logger.info("Start handling for "+ getHandType().toString());
+	public Hand identifyHand(List<Card> combinedCards) throws HandException {
 		List<Card> straightFlushCards = null;
-		boolean isIdentifiable = false;
 		boolean isFlush = false;
 		boolean isStraight = false;
 				
@@ -57,7 +55,8 @@ public class StraightFlushCardHandHandler extends AbstractHandler {
 			
 			return new StraightFlush(straightFlushCards);
 		} else {
-			throw new InvalidStraightFlushException(getHandType());
+			logger.debug("This is not a "+getHandType().toString());
+			throw new InvalidStraightFlushException();
 		}
 	}
 	

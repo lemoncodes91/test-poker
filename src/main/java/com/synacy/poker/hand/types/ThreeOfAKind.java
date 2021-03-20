@@ -28,7 +28,15 @@ public class ThreeOfAKind extends Hand {
      */
     @Override
     public String toString() {
-        return "";
+    	StringBuilder builder = new StringBuilder();
+    	builder.append("Trips ");
+    	builder.append("("+this.threeOfAKindCards.get(0).getRank().toString()+")");
+    	builder.append(" - ");
+    	builder.append(this.otherCards.get(0).getRank().toString());
+    	builder.append(",");
+    	builder.append(this.otherCards.get(1).getRank().toString());
+    	builder.append(" High");
+        return builder.toString();
     }
 
 }

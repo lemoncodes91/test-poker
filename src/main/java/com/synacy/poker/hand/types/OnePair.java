@@ -5,6 +5,7 @@ import com.synacy.poker.hand.Hand;
 import com.synacy.poker.hand.HandType;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @see <a href="https://en.wikipedia.org/wiki/List_of_poker_hands#One_pair">What is a One Pair?</a>
@@ -29,7 +30,19 @@ public class OnePair extends Hand {
      */
     @Override
     public String toString() {
-        return "";
+    	StringBuilder builder = new StringBuilder();
+    	builder.append("One Pair ");
+    	builder.append("("+this.pairCards.get(0).getRank().toString()+")");
+    	
+    	if (!pairCards.isEmpty()) {
+    		builder.append(" - ");
+    		builder.append(String.join(",", otherCards.stream()
+							   				 .map(card -> card.getRank().toString())
+							   				 .collect(Collectors.toList()))); 
+    		builder.append(" High");
+    	}
+    	
+        return builder.toString();
     }
 
 }

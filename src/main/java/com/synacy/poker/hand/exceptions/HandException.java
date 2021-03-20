@@ -7,18 +7,14 @@ public abstract class HandException extends Exception {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private HandType type;
 	
-	public HandException(HandType handType) {
-		// TODO Auto-generated constructor stub
-		this.type = type;
-	}
+	protected abstract HandType getHandType();
 	
 	@Override
 	public String getMessage() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("Card is not yet identifiable as ");
-		builder.append(type.toString());
+		builder.append("Card is not a ");
+		builder.append(getHandType().toString());
 		
 		return builder.toString();
 	}

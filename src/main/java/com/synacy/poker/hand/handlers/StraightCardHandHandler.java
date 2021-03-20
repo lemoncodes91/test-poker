@@ -9,32 +9,30 @@ import org.slf4j.LoggerFactory;
 import com.synacy.poker.card.Card;
 import com.synacy.poker.hand.Hand;
 import com.synacy.poker.hand.HandType;
+import com.synacy.poker.hand.exceptions.HandException;
+import com.synacy.poker.hand.exceptions.InvalidStraightException;
 import com.synacy.poker.hand.types.FullHouse;
 import com.synacy.poker.hand.types.Straight;
 
 public class StraightCardHandHandler extends AbstractHandler {
 	private static final Logger logger = LoggerFactory.getLogger(FourOfAKindHandler.class);
+	
 	public StraightCardHandHandler(AbstractHandler next) {
 		super(next);
 		// TODO Auto-generated constructor stub
 	}
 
 	@Override
-	public Hand handle(List<Card> playerCards, List<Card> communityCards) {
-		logger.info("Start handling for " + getHandType().toString());
+	protected Hand identifyHand(List<Card> combinedCards) throws HandException {
 		boolean isStraight = false;
 		List<Card> straightCards = Collections.emptyList();
-		
-		//process logic here
-		
+			
 		if (isStraight) {
+			
 			return new Straight(straightCards);
 		} else {
-			if (next != null) {
-				return next.handle(playerCards, communityCards);
-			}
+			throw new InvalidStraightException();
 		}
-		return null;
 	}
 
 	@Override

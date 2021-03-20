@@ -17,6 +17,7 @@ package com.synacy.poker.hand;
  */
 public enum HandType {
 
+	INVALID_HAND,
     HIGH_CARD,
     ONE_PAIR,
     TWO_PAIR,

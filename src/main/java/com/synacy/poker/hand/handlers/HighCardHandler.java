@@ -5,6 +5,7 @@ import java.util.List;
 import com.synacy.poker.card.Card;
 import com.synacy.poker.hand.Hand;
 import com.synacy.poker.hand.HandType;
+import com.synacy.poker.hand.exceptions.HandException;
 import com.synacy.poker.hand.types.HighCard;
 
 public class HighCardHandler extends AbstractHandler {
@@ -13,23 +14,16 @@ public class HighCardHandler extends AbstractHandler {
 		super(next);
 	}
 	
-	/**
-	 * Handler for High Card hand combination
-	 */
+
 	@Override
-	public Hand handle(List<Card> playerCards, List<Card> communityCards) {
+	protected Hand identifyHand(List<Card> combinedCards) throws HandException {
 		
 		//Since this is the least hand in poker
 		//combination is already filtered up in the chain
 		//when it reaches this handler, it is already assumed that 
 		//this is the worst hand (no combination, etc)
 		//get only the first 5 high cards,
-		List<Card> highCards = getBestFiveCardCombination(playerCards, communityCards);
-		
-		if (next != null) {
-			return next.handle(playerCards, communityCards);
-		}
-		
+		List<Card> highCards = getBestFiveCardCombination(combinedCards);
 		return new HighCard(highCards);
 	}
 
@@ -38,5 +32,6 @@ public class HighCardHandler extends AbstractHandler {
 		// TODO Auto-generated method stub
 		return HandType.HIGH_CARD;
 	}
+
 
 }

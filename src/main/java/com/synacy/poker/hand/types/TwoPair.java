@@ -30,7 +30,17 @@ public class TwoPair extends Hand {
      */
     @Override
     public String toString() {
-        return "";
+    	StringBuilder builder = new StringBuilder();
+    	builder.append("Two Pair ");
+    	builder.append("(");
+    	builder.append(this.firstPairCards.get(0).getRank().toString());
+    	builder.append(",");
+    	builder.append(this.secondPairCards.get(0).getRank().toString());
+    	builder.append(")");
+    	builder.append(" - ");
+    	builder.append(this.otherCards.get(0).getRank().toString());
+    	builder.append(" High");
+        return builder.toString();
     }
 
 }

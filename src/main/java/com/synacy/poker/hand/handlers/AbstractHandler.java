@@ -2,6 +2,7 @@ package com.synacy.poker.hand.handlers;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -58,7 +59,12 @@ public abstract class AbstractHandler {
 			// (e.g player's cards + comunity's cards >= 5 cards)
 			checkHand();
 			
-			return identifyHand(playerCards, communityCards);
+			//combines player and community card
+			List<Card> combinedCards = Stream.of(playerCards, communityCards)
+											  .flatMap(Collection::stream)
+											  .collect(Collectors.toList());
+			
+			return identifyHand(combinedCards);
 		} catch (HandException e) {
 			logger.debug(e.getMessage());
 		}
@@ -68,14 +74,14 @@ public abstract class AbstractHandler {
 	}
 	
 	/**
-	 * Custome processing of HandType
+	 * Custom handling of HandType
 	 * (e.g {@link StraightFlush}, {@link HighCard})
 	 * 
 	 * @param playerCards
 	 * @param communityCards
 	 * @return
 	 */
-	protected abstract Hand identifyHand(List<Card> playerCards, List<Card> communityCards) throws HandException;
+	protected abstract Hand identifyHand(List<Card> combinedCards) throws HandException;
 	
 	/**
 	 * Gets the HandType of the Handler
@@ -91,9 +97,8 @@ public abstract class AbstractHandler {
 	 * @param communityCards
 	 * @return List of {@link Card}
 	 */
-	public List<Card> getBestFiveCardCombination(List<Card> playerCards, List<Card> communityCards){
-			   // combined both cards
-		return Stream.concat( playerCards.stream(), communityCards.stream())
+	public List<Card> getBestFiveCardCombination(List<Card> combinedCards){
+		return combinedCards.stream()
 					 // sort card rank by priority
 					 .sorted((card1, card2) -> card1.getRank().getPriority() - card2.getRank().getPriority())
 					 //send only first 5 cards from the combined cards list
@@ -153,7 +158,7 @@ public abstract class AbstractHandler {
 		boolean isOkHand = IntStream.range(0, cardRankMap.length).filter(index -> cardRankMap[index] != 0).sum() > MAX_HAND_CARDS;
 		
 		if (!isOkHand && !isCurrentHandlerHighCard) {
-			throw new InvalidHandException(getHandType());
+			throw new InvalidHandException();
 		}
 	}
 	

@@ -28,9 +28,7 @@ public class FullHouseCardHandler extends AbstractHandler {
 	}
 
 	@Override
-	public Hand identifyHand(List<Card> playerCards, List<Card> communityCards) throws HandException {
-		logger.info("Start handling for " + getHandType().toString());
-		List<Card> combinedCards = null;;
+	public Hand identifyHand(List<Card> combinedCards) throws HandException {
 		List<Card> threeOfAKindCards = null;
 		List<Card> pairCards = null;
 		List<Integer> cardIndices = getCardRankMapIndices();
@@ -39,9 +37,7 @@ public class FullHouseCardHandler extends AbstractHandler {
 		//e.g {0, 0, 0, 0, 0, 0, 2, 1, 0, 0, 3, 0, 0}
 		// index is 10, has TRIPLETS (Q)
 		int indexWithTriplets = cardIndices.stream()
-										   .filter(index -> {
-											   return cardRankMap[index] == TRIPLETS;
-										   })
+										   .filter(index -> cardRankMap[index] == TRIPLETS)
 										   .findFirst()
 										   .orElse(INDEX_NOT_FOUND);
 		
@@ -54,10 +50,6 @@ public class FullHouseCardHandler extends AbstractHandler {
 										.orElse(INDEX_NOT_FOUND);
 		
 		if (indexWithTriplets != INDEX_NOT_FOUND && indexWithPairs != INDEX_NOT_FOUND) {
-			//combines player and community card
-			combinedCards = Stream.of(playerCards, communityCards)
-								.flatMap(Collection::stream)
-								.collect(Collectors.toList());
 			
 			//find the four of a kind in the combinedcards
 			threeOfAKindCards = combinedCards.stream()
@@ -74,8 +66,8 @@ public class FullHouseCardHandler extends AbstractHandler {
 									   .collect(Collectors.toList());
 			return new FullHouse(threeOfAKindCards, pairCards);
 		} else {
-			
-			throw new InvalidFullHouseException(getHandType());
+			logger.warn("This is not a "+getHandType().toString());
+			throw new InvalidFullHouseException();
 		}
 	}
 
