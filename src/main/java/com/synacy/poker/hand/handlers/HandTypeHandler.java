@@ -19,8 +19,17 @@ public class HandTypeHandler {
 	 * <br/><br/>
 	 * 
 	 * Chain: <br/>
-	 * {@link StraightFlush} > {@link FourOfAKind} > {@link FullHouse} > {@link Flush} > {@link Straight} 
-	 * > {@link ThreeOfAKind} > {@link TwoPair} > {@link OnePair} > {@link HighCard}
+	 * <ol>
+	 * 	<li>{@link StraightFlush}</li>
+	 *  <li>{@link FourOfAKind}</li>
+	 *  <li>{@link FullHouse}</li>
+	 *  <li>{@link Flush}</li>
+	 *  <li>{@link Straight}</li>
+	 *  <li>{@link ThreeOfAKind}</li>
+	 *  <li>{@link TwoPair}</li>
+	 *  <li>{@link OnePair}</li>
+	 *  <li>{@link HighCard}</li>
+	 * </ol>
 	 * <br/><br/>
 	 * 
 	 * */
@@ -46,7 +55,21 @@ public class HandTypeHandler {
 	
 	/**
 	 * Gets the chain of handlers and bootstraps the processing of Player's Hand (including Community Card)
-	 * <br/>
+	 * <br/><br/>
+	 * 
+	 * <strong>Chain:</strong> <br/>
+	 * <ol>
+	 * 	<li>{@link StraightFlush}</li>
+	 *  <li>{@link FourOfAKind}</li>
+	 *  <li>{@link FullHouse}</li>
+	 *  <li>{@link Flush}</li>
+	 *  <li>{@link Straight}</li>
+	 *  <li>{@link ThreeOfAKind}</li>
+	 *  <li>{@link TwoPair}</li>
+	 *  <li>{@link OnePair}</li>
+	 *  <li>{@link HighCard}</li>
+	 * </ol>
+	 * <br/><br/>
 	 * */
 	public static AbstractHandler getHandlers() {
 		if (processor == null) {
