@@ -54,9 +54,9 @@ public class FourOfAKindHandler extends AbstractHandler {
 					                        	return cardRankMap[index] == QUADS;
 					                        })
 					                        .findFirst()
-					                        .orElse(0);
+					                        .orElse(INDEX_NOT_FOUND);
 
-			if (indexWithQuads != 0) {
+			if (indexWithQuads != INDEX_NOT_FOUND) {
 				/*
 				 * Find the highest available rank on hand
 				 * e.g {0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 1, 0, 0}

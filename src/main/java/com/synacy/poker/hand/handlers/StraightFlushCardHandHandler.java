@@ -16,6 +16,8 @@ import com.synacy.poker.card.CardRank;
 import com.synacy.poker.card.CardSuit;
 import com.synacy.poker.hand.Hand;
 import com.synacy.poker.hand.HandType;
+import com.synacy.poker.hand.exceptions.HandException;
+import com.synacy.poker.hand.exceptions.InvalidStraightFlushException;
 import com.synacy.poker.hand.types.StraightFlush;
 
 public class StraightFlushCardHandHandler extends AbstractHandler {
@@ -27,72 +29,36 @@ public class StraightFlushCardHandHandler extends AbstractHandler {
 	}
 
 	@Override
-	public Hand handle(List<Card> playerCards, List<Card> communityCards) {
+	public Hand identifyHand(List<Card> playerCards, List<Card> communityCards) throws HandException {
 		logger.info("Start handling for "+ getHandType().toString());
 		List<Card> straightFlushCards = null;
 		boolean isIdentifiable = false;
 		boolean isFlush = false;
 		boolean isStraight = false;
+				
+		isFlush = isFlush();
+		isStraight = isStraight();
 		
-		//map the players card and community cards
-		//populates cardRankMap and cardRankSuit
-		mapCardHand(playerCards, communityCards);
-		
-		isIdentifiable = isCardHandIdentifieable();
-		
-		// if combination card can be processed  
-		// (e.g player's cards + comunity's cards >= 5 cards)
-		if (isIdentifiable) {
-			
-			isFlush = isFlush();
-			isStraight = isStraight();
-			
-			if (isStraight && isFlush) {
-				int cardSuitIndex = getCardSuit();
-				List<Integer> cardHandIndices = getBestHighCombination(getCardRankMapIndices());
+		if (isStraight && isFlush) {
+			int cardSuitIndex = getCardSuit();
+			List<Integer> cardHandIndices = getBestHighCombination(getCardRankMapIndices());
 
-				//check for steel wheel (five high straight flush)
-				if (cardHandIndices.get(0) == CardRank.FIVE.ordinal()) {
-					if (cardRankMap[CardRank.ACE.ordinal()] == 1) cardHandIndices.add(CardRank.ACE.ordinal());
-				}
-				
-				straightFlushCards = cardHandIndices.stream()
-								.limit(MAX_HAND_CARDS)
-								.map(indexes -> {
-									return new Card(CardRank.values()[indexes],  CardSuit.values()[cardSuitIndex]);
-								})
-								.collect(Collectors.toList());
-				
-				return new StraightFlush(straightFlushCards);
-			} else {
-				StringBuilder builder = new StringBuilder();
-				builder.append("Card is not a Straight Flush, ");
-				
-				if (next != null) {
-					builder.append("trying next handler - ");
-					builder.append(next.getClass().getName());
-				} else {
-					builder.append("no more tries.");
-				}
-				
-				logger.debug(builder.toString());
+			//check for steel wheel (five high straight flush)
+			if (cardHandIndices.get(0) == CardRank.FIVE.ordinal()) {
+				if (cardRankMap[CardRank.ACE.ordinal()] == 1) cardHandIndices.add(CardRank.ACE.ordinal());
 			}
 			
+			straightFlushCards = cardHandIndices.stream()
+							.limit(MAX_HAND_CARDS)
+							.map(indexes -> {
+								return new Card(CardRank.values()[indexes],  CardSuit.values()[cardSuitIndex]);
+							})
+							.collect(Collectors.toList());
+			
+			return new StraightFlush(straightFlushCards);
 		} else {
-			StringBuilder builder = new StringBuilder();
-			builder.append("Card is not yet identifiable as Straight Flush, ");
-			
-			if (next != null) {
-				builder.append("trying next handler - ");
-				builder.append(next.getClass().getName());
-			} else {
-				builder.append("no more tries.");
-			}
-			
-			logger.debug(builder.toString());
+			throw new InvalidStraightFlushException(getHandType());
 		}
-		
-		return next(playerCards, communityCards);
 	}
 	
 	private boolean isFlush() {

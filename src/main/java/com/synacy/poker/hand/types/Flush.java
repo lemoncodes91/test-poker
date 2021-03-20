@@ -30,7 +30,12 @@ public class Flush extends Hand {
      */
     @Override
     public String toString() {
-        return "";
+    	StringBuilder builder = new StringBuilder();
+    	builder.append("Flush ");
+    	builder.append("(");
+    	builder.append(getCards().get(0).getRank().toString());
+    	builder.append(" High)");
+        return builder.toString();
     }
 
 }

@@ -1,15 +1,26 @@
 package com.synacy.poker.hand.handlers;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.synacy.poker.card.Card;
 import com.synacy.poker.hand.Hand;
 import com.synacy.poker.hand.HandType;
+import com.synacy.poker.hand.exceptions.HandException;
+import com.synacy.poker.hand.exceptions.InvalidFullHouseException;
 import com.synacy.poker.hand.types.FourOfAKind;
 import com.synacy.poker.hand.types.FullHouse;
 
 public class FullHouseCardHandler extends AbstractHandler {
+	private static final Logger logger = LoggerFactory.getLogger(FourOfAKindHandler.class);
+	private static final int TRIPLETS = 3;
+	private static final int PAIR = 2;
 
 	public FullHouseCardHandler(AbstractHandler next) {
 		super(next);
@@ -17,21 +28,55 @@ public class FullHouseCardHandler extends AbstractHandler {
 	}
 
 	@Override
-	public Hand handle(List<Card> playerCards, List<Card> communityCards) {
-		boolean isFullHouse = false;
-		List<Card> threeOfAKindCards = Collections.emptyList();
-		List<Card> pairCards = Collections.emptyList();
+	public Hand identifyHand(List<Card> playerCards, List<Card> communityCards) throws HandException {
+		logger.info("Start handling for " + getHandType().toString());
+		List<Card> combinedCards = null;;
+		List<Card> threeOfAKindCards = null;
+		List<Card> pairCards = null;
+		List<Integer> cardIndices = getCardRankMapIndices();
 		
-		//process logic here
+		//Find the index of the bitmap  that has QUADS(4) value
+		//e.g {0, 0, 0, 0, 0, 0, 2, 1, 0, 0, 3, 0, 0}
+		// index is 10, has TRIPLETS (Q)
+		int indexWithTriplets = cardIndices.stream()
+										   .filter(index -> {
+											   return cardRankMap[index] == TRIPLETS;
+										   })
+										   .findFirst()
+										   .orElse(INDEX_NOT_FOUND);
 		
-		if (isFullHouse) {
+		//Find the index of the bitmap  that has QUADS(4) value
+		//e.g {0, 0, 0, 0, 0, 0, 2, 1, 0, 0, 3, 0, 0}
+		// index is 6, has PAIR (8)
+		int indexWithPairs = cardIndices.stream()
+										.filter(index -> cardRankMap[index] == PAIR)
+										.findFirst()
+										.orElse(INDEX_NOT_FOUND);
+		
+		if (indexWithTriplets != INDEX_NOT_FOUND && indexWithPairs != INDEX_NOT_FOUND) {
+			//combines player and community card
+			combinedCards = Stream.of(playerCards, communityCards)
+								.flatMap(Collection::stream)
+								.collect(Collectors.toList());
+			
+			//find the four of a kind in the combinedcards
+			threeOfAKindCards = combinedCards.stream()
+									   .filter(card -> {
+										   return card.getRank().ordinal() == indexWithTriplets;
+									   })
+									   .collect(Collectors.toList());
+			
+			//find the kicker in the combinedcards				
+			pairCards = combinedCards.stream()
+									   .filter(card -> {
+										   return card.getRank().ordinal() == indexWithPairs;
+									   })
+									   .collect(Collectors.toList());
 			return new FullHouse(threeOfAKindCards, pairCards);
 		} else {
-			if (next != null) {
-				return next.handle(playerCards, communityCards);
-			}
+			
+			throw new InvalidFullHouseException(getHandType());
 		}
-		return null;
 	}
 
 	@Override

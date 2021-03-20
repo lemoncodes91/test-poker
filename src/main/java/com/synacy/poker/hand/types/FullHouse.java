@@ -4,7 +4,9 @@ import com.synacy.poker.card.Card;
 import com.synacy.poker.hand.Hand;
 import com.synacy.poker.hand.HandType;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.stream.Stream;
 
 /**
  * @see <a href="https://en.wikipedia.org/wiki/List_of_poker_hands#Full_house">What is a Full House?</a>
@@ -29,7 +31,26 @@ public class FullHouse extends Hand {
      */
     @Override
     public String toString() {
-        return "";
+    	StringBuilder builder = new StringBuilder();
+    	this.threeOfAKindCards.stream()
+    						  .forEach(card -> {
+    							  builder.append(card.getRank().toString());
+    						  });
+    	
+    	this.pairCards.stream()
+    				  .forEach(card -> {
+    					  builder.append(card.getRank().toString());
+    				  });
+    	
+    	builder.append(" - ");
+    	builder.append("Full House ");
+    	builder.append("(");
+    	builder.append(this.threeOfAKindCards.get(0).getRank().toString());
+    	builder.append(",");
+    	builder.append(this.pairCards.get(0).getRank().toString());
+    	builder.append(")");
+    	
+        return builder.toString();
     }
 
 }

@@ -7,14 +7,20 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.synacy.poker.card.Card;
 import com.synacy.poker.hand.Hand;
 import com.synacy.poker.hand.HandType;
+import com.synacy.poker.hand.exceptions.HandException;
+import com.synacy.poker.hand.exceptions.InvalidHandException;
 import com.synacy.poker.hand.types.HighCard;
 import com.synacy.poker.hand.types.StraightFlush;
 
 public abstract class AbstractHandler {
-
+	private static final Logger logger = LoggerFactory.getLogger(AbstractHandler.class);
+	
 	// rank lowest to highest
 	// 2 3 4 5 6 7 8 9 10 J Q K A
 	// CardRank ordinal will be the index
@@ -25,6 +31,7 @@ public abstract class AbstractHandler {
 	// CardSuit ordinal will be the index
 	public int[] cardSuitMap =  {0, 0, 0, 0};
 	
+	public final static int INDEX_NOT_FOUND = -1;
 	public final static int MAX_HAND_CARDS = 5;
 	public AbstractHandler next;
 	
@@ -40,14 +47,42 @@ public abstract class AbstractHandler {
 	 * @param communityCards
 	 * @return
 	 */
-	public abstract Hand handle(List<Card> playerCards, List<Card> communityCards);
+	public Hand handle(List<Card> playerCards, List<Card> communityCards) {
+		logger.info("Start handling for " + getHandType().toString());
+
+		try {
+			//map card hads to bitmap
+			mapCardHand(playerCards, communityCards);
+			
+			// if combination card can be processed  
+			// (e.g player's cards + comunity's cards >= 5 cards)
+			checkHand();
+			
+			return identifyHand(playerCards, communityCards);
+		} catch (HandException e) {
+			logger.debug(e.getMessage());
+		}
+
+		
+		return next(playerCards, communityCards);
+	}
+	
+	/**
+	 * Custome processing of HandType
+	 * (e.g {@link StraightFlush}, {@link HighCard})
+	 * 
+	 * @param playerCards
+	 * @param communityCards
+	 * @return
+	 */
+	protected abstract Hand identifyHand(List<Card> playerCards, List<Card> communityCards) throws HandException;
 	
 	/**
 	 * Gets the HandType of the Handler
 	 * (e.g {@link StraightFlush}, {@link HighCard})
 	 * @return
 	 */
-	public abstract HandType getHandType();
+	protected abstract HandType getHandType();
 	
 	/**
 	 * Get the best Five Card Combination from players cards (2) and community cards (5)
@@ -73,7 +108,7 @@ public abstract class AbstractHandler {
 	 * @param playerCards
 	 * @param communityCards
 	 */
-	public void mapCardHand(List<Card> playerCards, List<Card> communityCards) {
+	protected void mapCardHand(List<Card> playerCards, List<Card> communityCards) {
 		
 		resetCardMapping();
 		
@@ -110,10 +145,16 @@ public abstract class AbstractHandler {
 	 * Checks whether player and community cards are identifiable
 	 * @return
 	 */
-	public boolean isCardHandIdentifieable() {
-		
+	protected void  checkHand() throws HandException {
+		//IntStream.range(0, cardRankMap.length).filter(index -> cardRankMap[index] != 0).sum() > MAX_HAND_CARDS;
 		//return Arrays.stream(cardRankMap).filter(value -> value != 0).count() > MAX_HAND_CARDS;
-		return IntStream.range(0, cardRankMap.length).filter(index -> cardRankMap[index] != 0).sum() > MAX_HAND_CARDS;
+		//return
+		boolean isCurrentHandlerHighCard = getHandType() == HandType.HIGH_CARD;
+		boolean isOkHand = IntStream.range(0, cardRankMap.length).filter(index -> cardRankMap[index] != 0).sum() > MAX_HAND_CARDS;
+		
+		if (!isOkHand && !isCurrentHandlerHighCard) {
+			throw new InvalidHandException(getHandType());
+		}
 	}
 	
 	/**
