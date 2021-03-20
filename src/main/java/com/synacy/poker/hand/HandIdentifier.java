@@ -1,13 +1,12 @@
 package com.synacy.poker.hand;
 
-import com.synacy.poker.card.Card;
-import com.synacy.poker.hand.handlers.ProcessorChainFactory;
-import com.synacy.poker.services.CardHandService;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
+import com.synacy.poker.card.Card;
+import com.synacy.poker.services.CardHandService;
 
 /**
  * A service that is to used to identify the {@link Hand} given the player's cards and the community
