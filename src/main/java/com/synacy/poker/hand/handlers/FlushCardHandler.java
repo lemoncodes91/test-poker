@@ -35,7 +35,7 @@ public class FlushCardHandler extends AbstractHandler {
 		//e.g {5,2,0,0} 
 		//corresponds to the ordinal of  CardSuit (e.g SPADE(0), CLUBS(1), etc)
 		int indexOfSuit = IntStream.range(0, cardSuitMap.length)
-								   .filter(index -> cardSuitMap[index] == MAX_HAND_CARDS)
+								   .filter(index -> cardSuitMap[index] >= MAX_HAND_CARDS)
 								   .findFirst()
 								   .orElse(INDEX_NOT_FOUND);
 								   

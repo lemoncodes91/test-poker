@@ -9,6 +9,7 @@ import com.synacy.poker.hand.WinningHandCalculator;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -29,7 +30,7 @@ public class Game {
 
     private Deck deck;
 
-    private Hand winningHand = null;
+    private List<Hand> winningHand = null;
 
     private static final int MAX_PLAYER_CARDS = 2;
     private static final int MAX_COMMUNITY_CARDS = 5;
@@ -105,8 +106,8 @@ public class Game {
         List<Hand> playerHands = players.stream()
                 .map(this::identifyPlayerHand)
                 .collect(Collectors.toList());
-        Optional<Hand> optionalHand = winningHandCalculator.calculateWinningHand(playerHands);
-        winningHand = optionalHand.orElse(null);
+        Optional<List<Hand>> optionalHand = winningHandCalculator.calculateWinningHand(playerHands);
+        winningHand = optionalHand.orElse(Collections.emptyList());
     }
 
     /**
@@ -115,9 +116,12 @@ public class Game {
      * @param player
      * @return true if the player's hand is equal to the winning hand.
      */
-    public boolean checkIfPlayerWon(Player player) {
+	public boolean checkIfPlayerWon(Player player) {
         Hand playerHand = identifyPlayerHand(player);
-        return winningHand != null && winningHand.equals(playerHand);
+//        return winningHand != null && winningHand.toString().equals(playerHand.toString());
+        return winningHand != null && !winningHand.isEmpty() &&
+        			winningHand.stream()
+        					   .allMatch(hand -> hand.getCardValues() == playerHand.getCardValues());
     }
 
     /**

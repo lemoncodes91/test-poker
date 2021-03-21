@@ -10,5 +10,12 @@ public abstract class Hand {
      * @return The {@link HandType}
      */
     public abstract HandType getHandType();
+    
+    /**
+     * Determining the card values with respect to the kicker 
+     * 
+     * @return sum of the card ranks (e.g A,K,Q,J,10 = 50) 
+     */
+    public abstract int getCardValues();
 
 }

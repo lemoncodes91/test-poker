@@ -4,7 +4,9 @@ import com.synacy.poker.card.Card;
 import com.synacy.poker.hand.Hand;
 import com.synacy.poker.hand.HandType;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.stream.Stream;
 
 /**
  * @see <a href="https://en.wikipedia.org/wiki/List_of_poker_hands#Flush">What is a flush?</a>
@@ -37,5 +39,10 @@ public class Flush extends Hand {
     	builder.append(" High)");
         return builder.toString();
     }
+    
+	@Override
+	public int getCardValues() {
+		return this.cards.stream().mapToInt(card -> card.getRank().ordinal()).sum();
+	}
 
 }

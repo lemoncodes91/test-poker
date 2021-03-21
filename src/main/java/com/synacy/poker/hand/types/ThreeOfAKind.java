@@ -4,7 +4,9 @@ import com.synacy.poker.card.Card;
 import com.synacy.poker.hand.Hand;
 import com.synacy.poker.hand.HandType;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.stream.Stream;
 
 /**
  * @see <a href="https://en.wikipedia.org/wiki/List_of_poker_hands#Three_of_a_kind">What is a Three of a Kind?</a>
@@ -39,4 +41,10 @@ public class ThreeOfAKind extends Hand {
         return builder.toString();
     }
 
+	@Override
+	public int getCardValues() {
+		return Stream.of(this.threeOfAKindCards, this.otherCards)
+					 .flatMap(Collection::stream)
+					 .mapToInt(card -> card.getRank().ordinal()).sum();
+	}
 }

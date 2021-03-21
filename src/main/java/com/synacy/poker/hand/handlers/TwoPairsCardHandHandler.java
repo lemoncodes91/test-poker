@@ -37,7 +37,7 @@ public class TwoPairsCardHandHandler extends AbstractHandler {
 												  .sorted((index1, index2) -> index2 - index1)
 												  .collect(Collectors.toList());
 		
-		if (!twoPairIndices.isEmpty() && twoPairIndices.size() == TWO_PAIR) {
+		if (!twoPairIndices.isEmpty() && twoPairIndices.size() >= TWO_PAIR) {
 			int highCardKicker = cardIndices.stream().filter(index -> {
 												return twoPairIndices.stream().noneMatch(twoPairIndex -> index == twoPairIndex);
 											})
@@ -49,7 +49,7 @@ public class TwoPairsCardHandHandler extends AbstractHandler {
 									      .filter(card -> card.getRank().ordinal() == twoPairIndices.get(0))
 									      .collect(Collectors.toList());
 			
-			//get the nex high pair card
+			//get the next high pair card
 			secondPairCards = combinedCards.stream()
 									      .filter(card -> card.getRank().ordinal() == twoPairIndices.get(1))
 									      .collect(Collectors.toList());

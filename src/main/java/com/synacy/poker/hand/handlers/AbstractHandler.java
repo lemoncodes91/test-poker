@@ -151,9 +151,6 @@ public abstract class AbstractHandler {
 	 * @return
 	 */
 	protected void  checkHand() throws HandException {
-		//IntStream.range(0, cardRankMap.length).filter(index -> cardRankMap[index] != 0).sum() > MAX_HAND_CARDS;
-		//return Arrays.stream(cardRankMap).filter(value -> value != 0).count() > MAX_HAND_CARDS;
-		//return
 		boolean isCurrentHandlerHighCard = getHandType() == HandType.HIGH_CARD;
 		boolean isOkHand = IntStream.range(0, cardRankMap.length).filter(index -> cardRankMap[index] != 0).sum() > MAX_HAND_CARDS;
 		

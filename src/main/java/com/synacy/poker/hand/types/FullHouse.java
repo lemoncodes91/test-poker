@@ -32,17 +32,6 @@ public class FullHouse extends Hand {
     @Override
     public String toString() {
     	StringBuilder builder = new StringBuilder();
-    	this.threeOfAKindCards.stream()
-    						  .forEach(card -> {
-    							  builder.append(card.getRank().toString());
-    						  });
-    	
-    	this.pairCards.stream()
-    				  .forEach(card -> {
-    					  builder.append(card.getRank().toString());
-    				  });
-    	
-    	builder.append(" - ");
     	builder.append("Full House ");
     	builder.append("(");
     	builder.append(this.threeOfAKindCards.get(0).getRank().toString());
@@ -52,5 +41,13 @@ public class FullHouse extends Hand {
     	
         return builder.toString();
     }
+    
+	@Override
+	public int getCardValues() {
+		return Stream.of(this.threeOfAKindCards, this.pairCards)
+					 .flatMap(Collection::stream)
+					 .mapToInt(card -> card.getRank().ordinal()).sum();
+	}
+
 
 }

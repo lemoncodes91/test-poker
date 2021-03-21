@@ -52,7 +52,7 @@ public class FullHouseCardHandlerTest {
 		
 		AbstractHandler sfHandler = new FullHouseCardHandler(null);
 		Hand hand = sfHandler.handle(player, community);
-		assertEquals("22277 - Full House (2,7)", hand.toString());
+		assertEquals("Full House (2,7)", hand.toString());
 	}
 
 	@Test
@@ -73,6 +73,6 @@ public class FullHouseCardHandlerTest {
 		
 		AbstractHandler sfHandler = new FullHouseCardHandler(null);
 		Hand hand = sfHandler.handle(player, community);
-		assertEquals("KKKAA - Full House (K,A)", hand.toString());
+		assertEquals("Full House (K,A)", hand.toString());
 	}
 }

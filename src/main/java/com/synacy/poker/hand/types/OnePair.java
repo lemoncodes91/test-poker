@@ -4,8 +4,10 @@ import com.synacy.poker.card.Card;
 import com.synacy.poker.hand.Hand;
 import com.synacy.poker.hand.HandType;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * @see <a href="https://en.wikipedia.org/wiki/List_of_poker_hands#One_pair">What is a One Pair?</a>
@@ -34,7 +36,7 @@ public class OnePair extends Hand {
     	builder.append("One Pair ");
     	builder.append("("+this.pairCards.get(0).getRank().toString()+")");
     	
-    	if (!pairCards.isEmpty()) {
+    	if (!otherCards.isEmpty()) {
     		builder.append(" - ");
     		builder.append(String.join(",", otherCards.stream()
 							   				 .map(card -> card.getRank().toString())
@@ -44,5 +46,14 @@ public class OnePair extends Hand {
     	
         return builder.toString();
     }
+    
+	@Override
+	public int getCardValues() {
+		return Stream.of(this.pairCards, this.otherCards)
+					 .flatMap(Collection::stream)
+					 .mapToInt(card -> {
+						 return card.getRank().ordinal();
+					 }).sum();
+	}
 
 }

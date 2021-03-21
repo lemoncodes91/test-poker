@@ -15,6 +15,10 @@ import com.synacy.poker.hand.types.StraightFlush;
 import com.synacy.poker.hand.types.ThreeOfAKind;
 import com.synacy.poker.hand.types.TwoPair;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Arrays;
 import java.util.List;
@@ -22,9 +26,13 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+
+@RunWith(SpringRunner.class)
+@SpringBootTest
 public class HandIdentifierTest {
 
-	private HandIdentifier handIdentifier = new HandIdentifier();
+	@Autowired
+	private HandIdentifier handIdentifier;
 
 	@Test
 	public void identifyHand_royalFlush() {
@@ -193,6 +201,32 @@ public class HandIdentifierTest {
 		assertTrue(identifiedHand instanceof TwoPair);
 		assertEquals("Two Pair (9,2) - Q High", identifiedHand.toString());
 	}
+	
+	/**
+	 * Test for K,9 High Two Pairs
+	 * @author mikram
+	 */
+	@Test
+	public void identifyHand_twoPair_1() {
+		List<Card> playerCards = Arrays.asList(
+				new Card(CardRank.KING, CardSuit.SPADES),
+				new Card(CardRank.KING, CardSuit.CLUBS)
+		);
+
+		List<Card> communityCards = Arrays.asList(
+				new Card(CardRank.ACE, CardSuit.DIAMONDS),
+				new Card(CardRank.FIVE, CardSuit.SPADES),
+				new Card(CardRank.FIVE, CardSuit.SPADES),
+				new Card(CardRank.NINE, CardSuit.SPADES),
+				new Card(CardRank.NINE, CardSuit.DIAMONDS)
+		);
+
+		Hand identifiedHand = handIdentifier.identifyHand(playerCards, communityCards);
+
+		assertTrue(identifiedHand instanceof TwoPair);
+		assertEquals("Two Pair (K,9) - A High", identifiedHand.toString());
+	}
+	
 
 	@Test
 	public void identifyHand_onePair() {

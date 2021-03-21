@@ -4,14 +4,17 @@ import com.synacy.poker.card.Card;
 import com.synacy.poker.hand.Hand;
 import com.synacy.poker.hand.HandType;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Stream;
 
 /**
  * @see <a href="https://en.wikipedia.org/wiki/List_of_poker_hands#Two_pair">What is a Two Pair?</a>
  */
 public class TwoPair extends Hand {
 
-    private List<Card> firstPairCards;
+	private List<Card> firstPairCards;
     private List<Card> secondPairCards;
     private List<Card> otherCards;
 
@@ -20,11 +23,7 @@ public class TwoPair extends Hand {
         this.secondPairCards = secondPairCards;
         this.otherCards = otherCards;
     }
-
-    public HandType getHandType() {
-        return HandType.TWO_PAIR;
-    }
-
+	
     /**
      * @return The name of the hand with kicker ranked in descending order, e.g. Two Pair (4,3) - A High
      */
@@ -43,4 +42,17 @@ public class TwoPair extends Hand {
         return builder.toString();
     }
 
+	@Override
+	public int getCardValues() {
+		return Stream.of(this.firstPairCards, this.secondPairCards, this.otherCards)
+					 .flatMap(Collection::stream)
+					 .mapToInt(card -> card.getRank().ordinal()).sum();
+	}
+
+	@Override
+	public HandType getHandType() {
+		// TODO Auto-generated method stub
+		return HandType.TWO_PAIR;
+	}
+	
 }

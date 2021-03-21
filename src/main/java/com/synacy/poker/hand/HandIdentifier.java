@@ -3,6 +3,7 @@ package com.synacy.poker.hand;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import com.synacy.poker.card.Card;
@@ -16,6 +17,7 @@ import com.synacy.poker.services.CardHandService;
 public class HandIdentifier {
 	
 	@Autowired
+	@Qualifier("MikramPokerHandlingService-1")
 	private CardHandService cardHandService;
 	
     /**

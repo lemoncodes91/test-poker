@@ -31,5 +31,25 @@ public class TwoPairTest {
 
         assertEquals("Two Pair (4,3) - A High", twoPair.toString());
     }
+    
+    
+    @Test
+    public void getCardValues_withTwoPairsAndAceKicker() {
+        List<Card> firstPair = Arrays.asList(
+                new Card(CardRank.FOUR, CardSuit.CLUBS),
+                new Card(CardRank.FOUR, CardSuit.DIAMONDS)
+        );
+        List<Card> secondPair = Arrays.asList(
+                new Card(CardRank.THREE, CardSuit.CLUBS),
+                new Card(CardRank.THREE, CardSuit.DIAMONDS)
+        );
+        List<Card> kicker = Arrays.asList(
+                new Card(CardRank.ACE, CardSuit.CLUBS)
+        );
+
+        TwoPair twoPair = new TwoPair(firstPair, secondPair, kicker);
+
+        assertEquals(18, twoPair.getCardValues());
+    }
 
 }

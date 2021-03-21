@@ -47,12 +47,15 @@ public class StraightFlushCardHandHandler extends AbstractHandler {
 			}
 			
 			straightFlushCards = cardHandIndices.stream()
-							.limit(MAX_HAND_CARDS)
-							.map(indexes -> {
-								return new Card(CardRank.values()[indexes],  CardSuit.values()[cardSuitIndex]);
-							})
-							.collect(Collectors.toList());
-			
+								   .map(index -> {
+									   return combinedCards.stream()
+											   			   .filter(card -> card.getRank().ordinal() == index && 
+											   			   					card.getSuit().ordinal() == cardSuitIndex)
+											   			   .findFirst()
+											   			   .get();
+								   })
+								   .collect(Collectors.toList());
+		
 			return new StraightFlush(straightFlushCards);
 		} else {
 			logger.debug("This is not a "+getHandType().toString());

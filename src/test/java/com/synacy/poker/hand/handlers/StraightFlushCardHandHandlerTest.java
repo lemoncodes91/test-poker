@@ -20,8 +20,6 @@ import com.synacy.poker.card.CardSuit;
 import com.synacy.poker.hand.Hand;
 import com.synacy.poker.hand.HandType;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
 public class StraightFlushCardHandHandlerTest {
 	
 	@BeforeClass
@@ -184,20 +182,47 @@ public class StraightFlushCardHandHandlerTest {
 	 * 
 	 */
 	@Test
-	public void test_not_straight_flush() {
+	public void test_not_straight_flush_1() {
 		List<Card> player  = new ArrayList<Card>();
 		List<Card> community  = new ArrayList<Card>();
 		
 		//Player Cards
-		player.add(new Card(CardRank.QUEEN, CardSuit.CLUBS));
-		player.add(new Card(CardRank.ACE, CardSuit.DIAMONDS));
+		player.add(new Card(CardRank.TEN, CardSuit.SPADES));
+		player.add(new Card(CardRank.JACK, CardSuit.DIAMONDS));
 		
 		//Community Cards
-		community.add(new Card(CardRank.JACK, CardSuit.SPADES));
-		community.add(new Card(CardRank.FOUR, CardSuit.CLUBS));
-		community.add(new Card(CardRank.SIX, CardSuit.CLUBS));
-		community.add(new Card(CardRank.FOUR, CardSuit.DIAMONDS));
-		community.add(new Card(CardRank.SEVEN, CardSuit.HEARTS));
+		community.add(new Card(CardRank.QUEEN, CardSuit.CLUBS));
+		community.add(new Card(CardRank.ACE, CardSuit.SPADES));
+		community.add(new Card(CardRank.NINE, CardSuit.DIAMONDS));
+		community.add(new Card(CardRank.EIGHT, CardSuit.HEARTS));
+		community.add(new Card(CardRank.SEVEN, CardSuit.CLUBS));
+		
+		AbstractHandler sfHandler = new StraightFlushCardHandHandler(null);
+		Hand hand = sfHandler.handle(player, community);
+		
+		assertEquals(null, hand);
+	}
+	
+	/*
+	 * Not straight flush 
+	 * 
+	 */
+	@Test
+	public void test_not_straight_flush_2() {
+		List<Card> player  = new ArrayList<Card>();
+		List<Card> community  = new ArrayList<Card>();
+		CardSuit suit = CardSuit.SPADES;
+		
+		//Player Cards
+		player.add(new Card(CardRank.TEN, suit));
+		player.add(new Card(CardRank.QUEEN, suit));
+		
+		//Community Cards
+		community.add(new Card(CardRank.QUEEN, suit));
+		community.add(new Card(CardRank.ACE, suit));
+		community.add(new Card(CardRank.TWO, suit));
+		community.add(new Card(CardRank.THREE, suit));
+		community.add(new Card(CardRank.SEVEN, suit));
 		
 		AbstractHandler sfHandler = new StraightFlushCardHandHandler(null);
 		Hand hand = sfHandler.handle(player, community);
