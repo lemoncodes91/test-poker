@@ -19,7 +19,7 @@ import com.synacy.poker.card.Card;
 import com.synacy.poker.card.CardRank;
 import com.synacy.poker.card.CardSuit;
 import com.synacy.poker.hand.Hand;
-import com.synacy.poker.hand.handlers.HandComparator;
+import com.synacy.poker.hand.HandComparator;
 import com.synacy.poker.hand.types.Flush;
 import com.synacy.poker.hand.types.FourOfAKind;
 import com.synacy.poker.hand.types.FullHouse;

@@ -1,5 +1,9 @@
 package com.synacy.poker.hand;
 
+import java.util.List;
+
+import com.synacy.poker.card.Card;
+
 /**
  * The base class of the different Hands such as {@link com.synacy.poker.hand.types.Flush},
  * {@link com.synacy.poker.hand.types.FullHouse}, etc.

@@ -74,9 +74,9 @@ public class WinningHandCalculatorTest {
 						  												&& wHand.getCardValues() == hand.getCardValues())));
 	}
 
-	//2 tie, split pot
+	//2 tie, split pot test 1
 	@Test
-	public void test_winning_2_winner_tie_split_pot() {
+	public void test_winning_2_winner_tie_split_pot_1() {
 		List<Hand> playerHands = new ArrayList<Hand>();
 		List<Hand> winningHands = new ArrayList<Hand>();
 		//Player1
@@ -98,6 +98,71 @@ public class WinningHandCalculatorTest {
 									  												&& wHand.getCardValues() == hand.getCardValues())));
 	}
 
+	//scenario One Pair
+	@Test
+	public void test_winning_2_winner_tie_split_pot_2() {
+		List<Hand> playerHands = new ArrayList<Hand>();
+		List<Hand> winningHands = new ArrayList<Hand>();
+		//Player1
+		playerHands.add(prepHand_high_Q());
+		//Player2
+		playerHands.add(prepHand_Pair_high_5());
+		//Player3
+		winningHands.add(prepHand_Pair_high_6());
+		
+		playerHands.addAll(winningHands);
+		
+		List<Hand> winningHand = calculator.calculateWinningHand(playerHands).orElse(Collections.emptyList());
+		
+		//assert 2 winner
+		assertEquals(2, winningHand.size());
+		assertTrue(winningHand.stream()
+							  .allMatch(hand -> winningHands.stream()
+									  						.anyMatch(wHand -> wHand.getHandType() == hand.getHandType() 
+									  												&& wHand.getCardValues() == hand.getCardValues())));
+	}
+	
+	private Hand prepHand_high_Q() {
+        List<Card> firstPair = Arrays.asList(
+                new Card(CardRank.QUEEN, CardSuit.CLUBS),
+                new Card(CardRank.NINE, CardSuit.DIAMONDS)
+        );
+        List<Card> kicker = Arrays.asList(
+                new Card(CardRank.TEN, CardSuit.CLUBS),
+                new Card(CardRank.SEVEN, CardSuit.CLUBS),
+                new Card(CardRank.SIX, CardSuit.CLUBS)
+        );
+
+        return new OnePair(firstPair, kicker);
+	}
+	
+	private Hand prepHand_Pair_high_5() {
+        List<Card> firstPair = Arrays.asList(
+                new Card(CardRank.FIVE, CardSuit.CLUBS),
+                new Card(CardRank.FIVE, CardSuit.DIAMONDS)
+        );
+        List<Card> kicker = Arrays.asList(
+                new Card(CardRank.NINE, CardSuit.CLUBS),
+                new Card(CardRank.KING, CardSuit.CLUBS),
+                new Card(CardRank.QUEEN, CardSuit.CLUBS)
+        );
+
+        return new OnePair(firstPair, kicker);
+	}
+	
+	private Hand prepHand_Pair_high_6() {
+        List<Card> firstPair = Arrays.asList(
+                new Card(CardRank.QUEEN, CardSuit.CLUBS),
+                new Card(CardRank.SIX, CardSuit.DIAMONDS)
+        );
+        List<Card> kicker = Arrays.asList(
+                new Card(CardRank.SIX, CardSuit.CLUBS),
+                new Card(CardRank.SEVEN, CardSuit.CLUBS),
+                new Card(CardRank.NINE, CardSuit.CLUBS)
+        );
+
+        return new OnePair(firstPair, kicker);
+	}
 	
 	private Hand prepHand_Pair() {
         List<Card> firstPair = Arrays.asList(

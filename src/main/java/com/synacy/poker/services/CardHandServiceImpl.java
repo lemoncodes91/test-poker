@@ -10,9 +10,9 @@ import org.springframework.stereotype.Service;
 
 import com.synacy.poker.card.Card;
 import com.synacy.poker.hand.Hand;
+import com.synacy.poker.hand.HandComparator;
 import com.synacy.poker.hand.HandType;
-import com.synacy.poker.hand.handlers.HandComparator;
-import com.synacy.poker.hand.handlers.HandTypeHandler;
+import com.synacy.poker.hand.HandTypeHandler;
 import com.synacy.poker.hand.types.FullHouse;
 import com.synacy.poker.hand.types.Straight;
 

@@ -1,10 +1,11 @@
-package com.synacy.poker.hand.handlers;
+package com.synacy.poker.hand;
 
 import java.util.Comparator;
+import java.util.List;
 
 import org.springframework.stereotype.Component;
 
-import com.synacy.poker.hand.Hand;
+import com.synacy.poker.card.Card;
 import com.synacy.poker.hand.types.FourOfAKind;
 import com.synacy.poker.hand.types.FullHouse;
 import com.synacy.poker.hand.types.HighCard;

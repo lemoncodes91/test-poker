@@ -1,5 +1,15 @@
-package com.synacy.poker.hand.handlers;
+package com.synacy.poker.hand;
 
+import com.synacy.poker.hand.handlers.AbstractHandler;
+import com.synacy.poker.hand.handlers.FlushCardHandler;
+import com.synacy.poker.hand.handlers.FourOfAKindHandler;
+import com.synacy.poker.hand.handlers.FullHouseCardHandler;
+import com.synacy.poker.hand.handlers.HighCardHandler;
+import com.synacy.poker.hand.handlers.OnePairCardHandHandler;
+import com.synacy.poker.hand.handlers.StraightCardHandHandler;
+import com.synacy.poker.hand.handlers.StraightFlushCardHandHandler;
+import com.synacy.poker.hand.handlers.ThreeOfAKindCardHandHandler;
+import com.synacy.poker.hand.handlers.TwoPairsCardHandHandler;
 import com.synacy.poker.hand.types.FourOfAKind;
 import com.synacy.poker.hand.types.FullHouse;
 import com.synacy.poker.hand.types.HighCard;
