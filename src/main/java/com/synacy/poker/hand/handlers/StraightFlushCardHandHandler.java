@@ -45,11 +45,16 @@ public class StraightFlushCardHandHandler extends AbstractHandler {
 
 			// Get the cards from combined (players + community) based from indices
 			// to form the combination hand
-			straightFlushCards = cardHandIndices.stream().map(index -> {
-				return combinedCards.stream()
-						.filter(card -> card.getRank().ordinal() == index && card.getSuit().ordinal() == cardSuitIndex)
-						.findFirst().get();
-			}).collect(Collectors.toList());
+			try {
+				straightFlushCards = cardHandIndices.stream().map(index -> {
+					return combinedCards.stream()
+							.filter(card -> card.getRank().ordinal() == index && card.getSuit().ordinal() == cardSuitIndex)
+							.findFirst().get();
+				}).collect(Collectors.toList());
+			} catch (Exception e) {
+				logger.error(e.getMessage());
+				throw new InvalidStraightFlushException();
+			}
 
 			return new StraightFlush(straightFlushCards);
 		} else {

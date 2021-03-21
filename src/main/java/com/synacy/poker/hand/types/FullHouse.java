@@ -13,7 +13,7 @@ import java.util.stream.Stream;
  */
 public class FullHouse extends Hand {
 
-    private List<Card> threeOfAKindCards;
+	private List<Card> threeOfAKindCards;
     private List<Card> pairCards;
 
     public FullHouse(List<Card> threeOfAKindCards, List<Card> pairCards) {
@@ -50,4 +50,12 @@ public class FullHouse extends Hand {
 	}
 
 
+    public List<Card> getThreeOfAKindCards() {
+		return threeOfAKindCards;
+	}
+
+	public List<Card> getPairCards() {
+		return pairCards;
+	}
+	
 }

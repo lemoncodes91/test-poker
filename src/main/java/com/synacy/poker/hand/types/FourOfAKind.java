@@ -48,4 +48,12 @@ public class FourOfAKind extends Hand {
 					 .flatMap(Collection::stream)
 					 .mapToInt(card -> card.getRank().ordinal()).sum();
 	}
+
+	public List<Card> getFourOfAKindCards() {
+		return fourOfAKindCards;
+	}
+
+	public List<Card> getOtherCards() {
+		return otherCards;
+	}
 }

@@ -56,4 +56,12 @@ public class OnePair extends Hand {
 					 }).sum();
 	}
 
+	public List<Card> getPairCards() {
+		return pairCards;
+	}
+
+	public List<Card> getOtherCards() {
+		return otherCards;
+	}
+
 }

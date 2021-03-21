@@ -47,4 +47,12 @@ public class ThreeOfAKind extends Hand {
 					 .flatMap(Collection::stream)
 					 .mapToInt(card -> card.getRank().ordinal()).sum();
 	}
+
+	public List<Card> getThreeOfAKindCards() {
+		return threeOfAKindCards;
+	}
+
+	public List<Card> getOtherCards() {
+		return otherCards;
+	}
 }

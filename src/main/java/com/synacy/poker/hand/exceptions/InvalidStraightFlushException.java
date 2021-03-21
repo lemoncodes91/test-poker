@@ -4,7 +4,6 @@ import com.synacy.poker.hand.HandType;
 
 public class InvalidStraightFlushException extends HandException {
 
-
 	/**
 	 * 
 	 */

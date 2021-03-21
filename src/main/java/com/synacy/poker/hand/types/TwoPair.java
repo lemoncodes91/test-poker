@@ -36,9 +36,11 @@ public class TwoPair extends Hand {
     	builder.append(",");
     	builder.append(this.secondPairCards.get(0).getRank().toString());
     	builder.append(")");
-    	builder.append(" - ");
-    	builder.append(this.otherCards.get(0).getRank().toString());
-    	builder.append(" High");
+    	if (!this.otherCards.isEmpty()) {
+        	builder.append(" - ");
+        	builder.append(this.otherCards.get(0).getRank().toString());
+        	builder.append(" High");
+    	}
         return builder.toString();
     }
 
@@ -53,6 +55,18 @@ public class TwoPair extends Hand {
 	public HandType getHandType() {
 		// TODO Auto-generated method stub
 		return HandType.TWO_PAIR;
+	}
+
+	public List<Card> getFirstPairCards() {
+		return firstPairCards;
+	}
+
+	public List<Card> getSecondPairCards() {
+		return secondPairCards;
+	}
+
+	public List<Card> getOtherCards() {
+		return otherCards;
 	}
 	
 }

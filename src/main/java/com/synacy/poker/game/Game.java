@@ -30,7 +30,7 @@ public class Game {
 
     private Deck deck;
 
-    private List<Hand> winningHand = null;
+    private List<Hand> winningHand = new ArrayList<>();
 
     private static final int MAX_PLAYER_CARDS = 2;
     private static final int MAX_COMMUNITY_CARDS = 5;
@@ -64,6 +64,7 @@ public class Game {
     public void startNewGame() {
         players.forEach(Player::clearHand);
         communityCards.clear();
+        winningHand.clear();
 
         deck = deckBuilder.buildDeck();
         deck.shuffle();
@@ -107,7 +108,7 @@ public class Game {
                 .map(this::identifyPlayerHand)
                 .collect(Collectors.toList());
         Optional<List<Hand>> optionalHand = winningHandCalculator.calculateWinningHand(playerHands);
-        winningHand = optionalHand.orElse(Collections.emptyList());
+        winningHand.addAll(optionalHand.orElse(Collections.emptyList()));
     }
 
     /**

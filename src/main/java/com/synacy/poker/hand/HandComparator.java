@@ -1,18 +1,18 @@
 package com.synacy.poker.hand;
 
 import java.util.Comparator;
-import java.util.List;
 
 import org.springframework.stereotype.Component;
 
-import com.synacy.poker.card.Card;
-import com.synacy.poker.hand.types.FourOfAKind;
-import com.synacy.poker.hand.types.FullHouse;
+import com.synacy.poker.hand.comparators.FourOfAKindComparator;
+import com.synacy.poker.hand.comparators.FullHouseComparator;
+import com.synacy.poker.hand.comparators.HandCompareStrategy;
+import com.synacy.poker.hand.comparators.OnePairComparator;
+import com.synacy.poker.hand.comparators.SimpleCardRankComparator;
+import com.synacy.poker.hand.comparators.ThreeOfAKindComparator;
+import com.synacy.poker.hand.comparators.TwoPairComparator;
 import com.synacy.poker.hand.types.HighCard;
 import com.synacy.poker.hand.types.OnePair;
-import com.synacy.poker.hand.types.StraightFlush;
-import com.synacy.poker.hand.types.ThreeOfAKind;
-import com.synacy.poker.hand.types.TwoPair;
 
 /**
  * Custom {@link Comparator} for determining player hand from highest (best
@@ -45,10 +45,49 @@ public class HandComparator implements Comparator<Hand> {
 		// When HandType is the same
 		// examining for kickers
 		if (isSameHandType) {
-			compVal = o2.getCardValues() - o1.getCardValues();
+			//since both hands are the same type, pass either of the hand type 
+			//to fire the related comparator of hand type
+			return getComparator(o1.getHandType()).compare(o1, o2);
 		}
 
 		return compVal;
+	}
+	
+	
+	private HandCompareStrategy getComparator(HandType type) {
+		HandCompareStrategy comparator = null;
+		switch (type) {
+			case STRAIGHT_FLUSH:
+				comparator = new SimpleCardRankComparator();
+				break;
+			case FOUR_OF_A_KIND:
+				comparator = new FourOfAKindComparator();
+				break;
+			case FULL_HOUSE:
+				comparator = new FullHouseComparator();
+				break;
+			case FLUSH:
+				comparator = new SimpleCardRankComparator();
+				break;
+			case STRAIGHT:
+				comparator = new SimpleCardRankComparator();
+				break;
+			case THREE_OF_A_KIND:
+				comparator = new ThreeOfAKindComparator();
+				break;
+			case TWO_PAIR:
+				comparator = new TwoPairComparator();
+				break;
+			case ONE_PAIR:
+				comparator = new OnePairComparator();
+				break;
+			case HIGH_CARD:
+				comparator = new SimpleCardRankComparator();
+				break;
+			default:
+				break;
+		}
+		return comparator;
 	}
 
 }
