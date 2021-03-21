@@ -67,7 +67,7 @@ public class FourOfAKindHandler extends AbstractHandler {
 			
 			return new FourOfAKind(fourOfAKind, otherCards);
 		}else {
-			logger.debug("This is not a "+getHandType().toString());
+			logger.debug("This is not a " + getHandType().toString());
 			throw new InvalidFourOfAKindException();
 		}
 	}

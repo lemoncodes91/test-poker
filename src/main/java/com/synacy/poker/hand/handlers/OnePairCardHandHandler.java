@@ -1,6 +1,5 @@
 package com.synacy.poker.hand.handlers;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,10 +29,8 @@ public class OnePairCardHandHandler extends AbstractHandler {
 
 	@Override
 	protected Hand identifyHand(List<Card> combinedCards) throws HandException {
-		
-		boolean isOnePair = false;
-		List<Card> pairCards = Collections.emptyList();
-		List<Card> otherCards = Collections.emptyList();
+		List<Card> pairCards = null;
+		List<Card> otherCards = null;
 		List<Integer> cardIndices = getCardRankMapIndices();
 		
 		int twoPairIndices = cardIndices.stream()
@@ -60,7 +57,7 @@ public class OnePairCardHandHandler extends AbstractHandler {
 									 
 			return new OnePair(pairCards, otherCards);
 		} else {
-			logger.warn("This is not a "+getHandType().toString());
+			logger.debug("This is not a "+getHandType().toString());
 			throw new InvalidOnePairException();
 		}
 	}

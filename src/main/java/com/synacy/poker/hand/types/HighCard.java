@@ -30,7 +30,8 @@ public class HighCard extends Hand {
     @Override
     public String toString() {
     	return this.cards.stream()
-    						 .sorted((card1, card2) -> card2.getRank().ordinal() - card1.getRank().ordinal())
+							 // sort card rank by priority
+							 .sorted((card1, card2) -> card2.getRank().ordinal() - card1.getRank().ordinal())
     						 .map(card -> {
     							 return card.getRank().toString();
     						 })

@@ -1,10 +1,7 @@
 package com.synacy.poker.hand.handlers;
 
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +11,6 @@ import com.synacy.poker.hand.Hand;
 import com.synacy.poker.hand.HandType;
 import com.synacy.poker.hand.exceptions.HandException;
 import com.synacy.poker.hand.exceptions.InvalidFullHouseException;
-import com.synacy.poker.hand.types.FourOfAKind;
 import com.synacy.poker.hand.types.FullHouse;
 
 public class FullHouseCardHandler extends AbstractHandler {
@@ -66,7 +62,7 @@ public class FullHouseCardHandler extends AbstractHandler {
 									   .collect(Collectors.toList());
 			return new FullHouse(threeOfAKindCards, pairCards);
 		} else {
-			logger.warn("This is not a "+getHandType().toString());
+			logger.debug("This is not a "+getHandType().toString());
 			throw new InvalidFullHouseException();
 		}
 	}
