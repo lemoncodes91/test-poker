@@ -1,15 +1,15 @@
 package com.synacy.poker.hand;
 
-import com.synacy.poker.hand.handlers.AbstractHandler;
-import com.synacy.poker.hand.handlers.FlushCardHandler;
-import com.synacy.poker.hand.handlers.FourOfAKindHandler;
-import com.synacy.poker.hand.handlers.FullHouseCardHandler;
-import com.synacy.poker.hand.handlers.HighCardHandler;
-import com.synacy.poker.hand.handlers.OnePairCardHandHandler;
-import com.synacy.poker.hand.handlers.StraightCardHandHandler;
-import com.synacy.poker.hand.handlers.StraightFlushCardHandHandler;
-import com.synacy.poker.hand.handlers.ThreeOfAKindCardHandHandler;
-import com.synacy.poker.hand.handlers.TwoPairsCardHandHandler;
+import com.synacy.poker.hand.identifiers.AbstractHandIdentifier;
+import com.synacy.poker.hand.identifiers.FlushHandIdentifier;
+import com.synacy.poker.hand.identifiers.FourOfAKindHandIdentifier;
+import com.synacy.poker.hand.identifiers.FullHouseIdentifier;
+import com.synacy.poker.hand.identifiers.HighCardIdentifier;
+import com.synacy.poker.hand.identifiers.OnePairIdentifier;
+import com.synacy.poker.hand.identifiers.StraightFlushIdentifier;
+import com.synacy.poker.hand.identifiers.StraightIdentifier;
+import com.synacy.poker.hand.identifiers.ThreeOfAKindIdentifier;
+import com.synacy.poker.hand.identifiers.TwoPairsIdentifier;
 import com.synacy.poker.hand.types.FourOfAKind;
 import com.synacy.poker.hand.types.FullHouse;
 import com.synacy.poker.hand.types.HighCard;
@@ -20,7 +20,7 @@ import com.synacy.poker.hand.types.TwoPair;
 
 public class HandTypeHandler {
 
-	private static AbstractHandler processor = null;
+	private static AbstractHandIdentifier processor = null;
 
 	/**
 	 * Creates the chain of Hand Identifiers or handlers <br/>
@@ -48,20 +48,20 @@ public class HandTypeHandler {
 	private static void init() {
 		// This is the very tip of the chain (bottom)
 		// terminate the chain with null
-		AbstractHandler highCard = new HighCardHandler(null);
+		HighCardIdentifier highCard = new HighCardIdentifier(null);
 
 		// This is the middle processors
-		AbstractHandler onePair = new OnePairCardHandHandler(highCard);
-		AbstractHandler twoPairs = new TwoPairsCardHandHandler(onePair);
-		AbstractHandler threeOfAKind = new ThreeOfAKindCardHandHandler(twoPairs);
-		AbstractHandler straight = new StraightCardHandHandler(threeOfAKind);
-		AbstractHandler flush = new FlushCardHandler(straight);
-		AbstractHandler fullHouse = new FullHouseCardHandler(flush);
-		AbstractHandler fourOfAKind = new FourOfAKindHandler(fullHouse);
+		OnePairIdentifier onePair = new OnePairIdentifier(highCard);
+		TwoPairsIdentifier twoPairs = new TwoPairsIdentifier(onePair);
+		ThreeOfAKindIdentifier threeOfAKind = new ThreeOfAKindIdentifier(twoPairs);
+		StraightIdentifier straight = new StraightIdentifier(threeOfAKind);
+		FlushHandIdentifier flush = new FlushHandIdentifier(straight);
+		FullHouseIdentifier fullHouse = new FullHouseIdentifier(flush);
+		FourOfAKindHandIdentifier fourOfAKind = new FourOfAKindHandIdentifier(fullHouse);
 
 		// This is the very top of the chain (top)
-		// set the next processor in the chain
-		processor = new StraightFlushCardHandHandler(fourOfAKind);
+		// set the next processor in the chain (FourOfAKindHandIdentifier)
+		processor = new StraightFlushIdentifier(fourOfAKind);
 
 	}
 
@@ -85,7 +85,7 @@ public class HandTypeHandler {
 	 * <br/>
 	 * <br/>
 	 */
-	public static AbstractHandler getHandlers() {
+	public static AbstractHandIdentifier getHandlers() {
 		if (processor == null) {
 			init();
 		}
