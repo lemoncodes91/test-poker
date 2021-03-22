@@ -259,4 +259,116 @@ public class TwoPairComparatorTest {
         
         assertTrue(comparator.compare(p1TwoPair, p2TwoPair) < 0);
 	}
+	
+	//Second Pair equal 
+	//eval kicker
+	@Test
+	public void test_compare_7() {
+		
+		//P1 Hand
+        List<Card> p1FirstPair = Arrays.asList(
+                new Card(CardRank.FOUR, CardSuit.CLUBS),
+                new Card(CardRank.FOUR, CardSuit.DIAMONDS)
+        );
+        List<Card> p1SecondPair = Arrays.asList(
+                new Card(CardRank.SEVEN, CardSuit.CLUBS),
+                new Card(CardRank.SEVEN, CardSuit.DIAMONDS)
+        );
+        List<Card> p1Kicker = Arrays.asList(
+                new Card(CardRank.ACE, CardSuit.CLUBS)
+        );
+
+        TwoPair p1TwoPair = new TwoPair(p1FirstPair, p1SecondPair, p1Kicker);
+        
+		//P2 Hand
+        List<Card> p2FirstPair = Arrays.asList(
+                new Card(CardRank.FOUR, CardSuit.CLUBS),
+                new Card(CardRank.FOUR, CardSuit.DIAMONDS)
+        );
+        List<Card> p2SecondPair = Arrays.asList(
+                new Card(CardRank.SEVEN, CardSuit.CLUBS),
+                new Card(CardRank.SEVEN, CardSuit.DIAMONDS)
+        );
+        List<Card> p2Kicker = Arrays.asList(
+                new Card(CardRank.KING, CardSuit.CLUBS)
+        );
+
+        TwoPair p2TwoPair = new TwoPair(p2FirstPair, p2SecondPair, p2Kicker);
+        
+        assertTrue(comparator.compare(p1TwoPair, p2TwoPair) < 0);
+	}
+	
+	//Second Pair equal 
+	//eval kicker
+	@Test
+	public void test_compare_8() {
+		
+		//P1 Hand
+        List<Card> p1FirstPair = Arrays.asList(
+                new Card(CardRank.FOUR, CardSuit.CLUBS),
+                new Card(CardRank.FOUR, CardSuit.DIAMONDS)
+        );
+        List<Card> p1SecondPair = Arrays.asList(
+                new Card(CardRank.SEVEN, CardSuit.CLUBS),
+                new Card(CardRank.SEVEN, CardSuit.DIAMONDS)
+        );
+        List<Card> p1Kicker = Arrays.asList(
+                new Card(CardRank.ACE, CardSuit.CLUBS)
+        );
+
+        TwoPair p1TwoPair = new TwoPair(p1FirstPair, p1SecondPair, p1Kicker);
+        
+		//P2 Hand
+        List<Card> p2FirstPair = Arrays.asList(
+                new Card(CardRank.FOUR, CardSuit.CLUBS),
+                new Card(CardRank.FOUR, CardSuit.DIAMONDS)
+        );
+        List<Card> p2SecondPair = Arrays.asList(
+                new Card(CardRank.SEVEN, CardSuit.CLUBS),
+                new Card(CardRank.SEVEN, CardSuit.DIAMONDS)
+        );
+        List<Card> p2Kicker = Arrays.asList(
+        );
+
+        TwoPair p2TwoPair = new TwoPair(p2FirstPair, p2SecondPair, p2Kicker);
+        
+        assertTrue(comparator.compare(p1TwoPair, p2TwoPair) < 0);
+	}
+	
+	//Second Pair equal 
+	//eval kicker
+	@Test
+	public void test_compare_9() {
+		
+		//P1 Hand
+        List<Card> p1FirstPair = Arrays.asList(
+                new Card(CardRank.FOUR, CardSuit.CLUBS),
+                new Card(CardRank.FOUR, CardSuit.DIAMONDS)
+        );
+        List<Card> p1SecondPair = Arrays.asList(
+                new Card(CardRank.SEVEN, CardSuit.CLUBS),
+                new Card(CardRank.SEVEN, CardSuit.DIAMONDS)
+        );
+        List<Card> p1Kicker = Arrays.asList(
+        );
+
+        TwoPair p1TwoPair = new TwoPair(p1FirstPair, p1SecondPair, p1Kicker);
+        
+		//P2 Hand
+        List<Card> p2FirstPair = Arrays.asList(
+                new Card(CardRank.FOUR, CardSuit.CLUBS),
+                new Card(CardRank.FOUR, CardSuit.DIAMONDS)
+        );
+        List<Card> p2SecondPair = Arrays.asList(
+                new Card(CardRank.SEVEN, CardSuit.CLUBS),
+                new Card(CardRank.SEVEN, CardSuit.DIAMONDS)
+        );
+        List<Card> p2Kicker = Arrays.asList(
+        		new Card(CardRank.KING, CardSuit.CLUBS)
+        );
+
+        TwoPair p2TwoPair = new TwoPair(p2FirstPair, p2SecondPair, p2Kicker);
+        
+        assertTrue(comparator.compare(p1TwoPair, p2TwoPair) > 0);
+	}
 }

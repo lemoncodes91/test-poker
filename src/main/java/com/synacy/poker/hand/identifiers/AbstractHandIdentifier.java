@@ -24,12 +24,12 @@ public abstract class AbstractHandIdentifier {
 	// rank lowest to highest
 	// 2 3 4 5 6 7 8 9 10 J Q K A
 	// CardRank ordinal will be the index
-	public int[] cardRankMap = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+	protected int[] cardRankMap = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
 	// card suit mapping
 	// Spades, Clubs, Diamonds, Hearts
 	// CardSuit ordinal will be the index
-	public int[] cardSuitMap = { 0, 0, 0, 0 };
+	protected int[] cardSuitMap = { 0, 0, 0, 0 };
 
 	public final static int INDEX_NOT_FOUND = -1;
 	public final static int MAX_HAND_CARDS = 5;

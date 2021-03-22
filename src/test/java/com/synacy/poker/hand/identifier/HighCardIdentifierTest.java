@@ -1,4 +1,4 @@
-package com.synacy.poker.hand.handlers;
+package com.synacy.poker.hand.identifier;
 
 import static org.junit.Assert.*;
 

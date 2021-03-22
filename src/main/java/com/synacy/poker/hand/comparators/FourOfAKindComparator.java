@@ -7,6 +7,8 @@ import com.synacy.poker.hand.types.FourOfAKind;
 
 public class FourOfAKindComparator extends HandCompareStrategy {
 
+	private final static int EMPTY_CARD = 0;
+	
 	/**
 	 * When Quads card's ordinal numbers sum is the same, then evaluate the kicker
 	 * 
@@ -23,10 +25,14 @@ public class FourOfAKindComparator extends HandCompareStrategy {
 		int rankValueofFourOfAKind2 = fourOfAKind2.getFourOfAKindCards().stream()
 				.mapToInt(card -> card.getRank().ordinal()).sum();
 
+		//if pair has equal values 
+		//check for the kicker, highest ranking kicker wins.
 		if (rankValueofFourOfAKind1 == rankValueofFourOfAKind2) {
-			int kickerOfFourOfAKind1 = fourOfAKind1.getOtherCards().get(0).getRank().ordinal();
-			int kickerOfFourOfAKind2 = fourOfAKind2.getOtherCards().get(0).getRank().ordinal();
-
+			int kickerOfFourOfAKind1 = !fourOfAKind1.getOtherCards().isEmpty() ?
+												fourOfAKind1.getOtherCards().get(0).getRank().ordinal() : EMPTY_CARD;
+			int kickerOfFourOfAKind2 = !fourOfAKind2.getOtherCards().isEmpty() ? 
+												fourOfAKind2.getOtherCards().get(0).getRank().ordinal() : EMPTY_CARD;
+							
 			return kickerOfFourOfAKind2 - kickerOfFourOfAKind1;
 		}
 

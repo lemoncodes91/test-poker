@@ -2,6 +2,7 @@ package com.synacy.poker.hand.comparators;
 
 import java.util.Comparator;
 
+import com.synacy.poker.card.CardRank;
 import com.synacy.poker.hand.Hand;
 import com.synacy.poker.hand.types.OnePair;
 
@@ -22,11 +23,29 @@ public class OnePairComparator extends HandCompareStrategy {
 		int totalRankValueOfOp2 = op2.getPairCards().stream().mapToInt(card -> card.getRank().ordinal()).sum();
 
 		if (totalRankValueOfOp1 == totalRankValueOfOp2) {
-			int totalValueOfKickersOfOp1 = op1.getOtherCards().stream().mapToInt(card -> card.getRank().ordinal())
-					.sum();
-			int totalValueOfKickersOfOp2 = op2.getOtherCards().stream().mapToInt(card -> card.getRank().ordinal())
-					.sum();
-			return totalValueOfKickersOfOp2 - totalValueOfKickersOfOp1;
+			//finds the ace for hand 1
+			long kickerOp1 = op1.getOtherCards().stream()
+											    .map(card -> card.getRank())
+											    .filter(ordinal -> ordinal == CardRank.ACE)
+											    .count();
+
+			//finds the ace for hand 2
+			long kickerOp2 = op2.getOtherCards().stream()
+												.map(card -> card.getRank())
+												.filter(ordinal -> ordinal == CardRank.ACE)
+												.count();
+			//if there are no ace on either hand, proceed with computation of kickers
+			//else, return the hand which has an Ace 
+			//(return based on Comparator convention (postive , 0 or negative)
+			if (kickerOp1 == 0 && kickerOp2 == 0) {
+				int totalValueOfKickersOfOp1 = op1.getOtherCards().stream().mapToInt(card -> card.getRank().ordinal())
+						.sum();
+				int totalValueOfKickersOfOp2 = op2.getOtherCards().stream().mapToInt(card -> card.getRank().ordinal())
+						.sum();
+				return totalValueOfKickersOfOp2 - totalValueOfKickersOfOp1;
+			} else {
+				return Long.valueOf(kickerOp2).intValue() - Long.valueOf(kickerOp1).intValue();
+			}
 		}
 
 		return totalRankValueOfOp2 - totalRankValueOfOp1;

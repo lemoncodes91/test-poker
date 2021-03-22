@@ -1,4 +1,4 @@
-package com.synacy.poker.hand.handlers;
+package com.synacy.poker.hand.identifier;
 
 import static org.junit.Assert.*;
 
@@ -16,9 +16,9 @@ import com.synacy.poker.card.CardRank;
 import com.synacy.poker.card.CardSuit;
 import com.synacy.poker.hand.Hand;
 import com.synacy.poker.hand.identifiers.AbstractHandIdentifier;
-import com.synacy.poker.hand.identifiers.FullHouseIdentifier;
+import com.synacy.poker.hand.identifiers.ThreeOfAKindIdentifier;
 
-public class FullHouseIdentifierTest {
+public class ThreeOfAKindIdentifierTest {
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -37,7 +37,7 @@ public class FullHouseIdentifierTest {
 	}
 
 	@Test
-	public void test_full_house_1() {
+	public void test_three_of_a_kind_1() {
 		List<Card> player  = new ArrayList<Card>();
 		List<Card> community  = new ArrayList<Card>();
 		
@@ -46,35 +46,14 @@ public class FullHouseIdentifierTest {
 		player.add(new Card(CardRank.SEVEN, CardSuit.DIAMONDS));
 		
 		//Community Cards
-		community.add(new Card(CardRank.TWO, CardSuit.HEARTS));
-		community.add(new Card(CardRank.TWO, CardSuit.CLUBS));
+		community.add(new Card(CardRank.SEVEN, CardSuit.HEARTS));
+		community.add(new Card(CardRank.KING, CardSuit.CLUBS));
 		community.add(new Card(CardRank.TWO, CardSuit.SPADES));
 		community.add(new Card(CardRank.ACE, CardSuit.CLUBS));
 		community.add(new Card(CardRank.FIVE, CardSuit.HEARTS));
 		
-		AbstractHandIdentifier sfHandler = new FullHouseIdentifier(null);
+		AbstractHandIdentifier sfHandler = new ThreeOfAKindIdentifier(null);
 		Hand hand = sfHandler.handle(player, community);
-		assertEquals("Full House (2,7)", hand.toString());
-	}
-
-	@Test
-	public void test_full_house_2() {
-		List<Card> player  = new ArrayList<Card>();
-		List<Card> community  = new ArrayList<Card>();
-		
-		//Player Cards
-		player.add(new Card(CardRank.ACE, CardSuit.SPADES));
-		player.add(new Card(CardRank.KING, CardSuit.DIAMONDS));
-		
-		//Community Cards
-		community.add(new Card(CardRank.ACE, CardSuit.HEARTS));
-		community.add(new Card(CardRank.KING, CardSuit.CLUBS));
-		community.add(new Card(CardRank.KING, CardSuit.SPADES));
-		community.add(new Card(CardRank.TWO, CardSuit.CLUBS));
-		community.add(new Card(CardRank.QUEEN, CardSuit.HEARTS));
-		
-		AbstractHandIdentifier sfHandler = new FullHouseIdentifier(null);
-		Hand hand = sfHandler.handle(player, community);
-		assertEquals("Full House (K,A)", hand.toString());
+		assertEquals("Trips (7) - A,K High", hand.toString());
 	}
 }

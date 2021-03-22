@@ -25,16 +25,20 @@ public class ThreeOfAKindComparator extends HandCompareStrategy {
 
 		if (rankValueOfTrips1 == rankValueOfTrips2) {
 			
+			//finds the ace for hand 1
 			long countAceTrips1 = trips1.getOtherCards().stream()
 													 	 .map(card -> card.getRank())
 													 	 .filter(ordinal -> ordinal == CardRank.ACE)
 													 	 .count();
-			
+			//finds the ace for hand 2
 			long countAceTrips2 = trips2.getOtherCards().stream()
 										 	 .map(card -> card.getRank())
 										 	 .filter(ordinal -> ordinal == CardRank.ACE)
 										 	 .count();
 			
+			//if there are no ace on either hand, proceed with computation of kickers
+			//else, return the hand which has an Ace 
+			//(return based on Comparator convention (postive , 0 or negative)
 			if (countAceTrips1 == 0 && countAceTrips2 == 0) {
 				
 				int rankValueKickerTrips1 = trips1.getOtherCards().stream().mapToInt(card -> card.getRank().ordinal())

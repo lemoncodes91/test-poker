@@ -1,4 +1,4 @@
-package com.synacy.poker.hand.handlers;
+package com.synacy.poker.hand.identifier;
 
 import static org.junit.Assert.*;
 
@@ -16,9 +16,9 @@ import com.synacy.poker.card.CardRank;
 import com.synacy.poker.card.CardSuit;
 import com.synacy.poker.hand.Hand;
 import com.synacy.poker.hand.identifiers.AbstractHandIdentifier;
-import com.synacy.poker.hand.identifiers.ThreeOfAKindIdentifier;
+import com.synacy.poker.hand.identifiers.TwoPairsIdentifier;
 
-public class ThreeOfAKindIdentifierTest {
+public class TwoPairsIdentifierTest {
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -37,7 +37,7 @@ public class ThreeOfAKindIdentifierTest {
 	}
 
 	@Test
-	public void test_three_of_a_kind_1() {
+	public void test_two_pair_1() {
 		List<Card> player  = new ArrayList<Card>();
 		List<Card> community  = new ArrayList<Card>();
 		
@@ -46,14 +46,15 @@ public class ThreeOfAKindIdentifierTest {
 		player.add(new Card(CardRank.SEVEN, CardSuit.DIAMONDS));
 		
 		//Community Cards
-		community.add(new Card(CardRank.SEVEN, CardSuit.HEARTS));
+		community.add(new Card(CardRank.KING, CardSuit.HEARTS));
 		community.add(new Card(CardRank.KING, CardSuit.CLUBS));
 		community.add(new Card(CardRank.TWO, CardSuit.SPADES));
 		community.add(new Card(CardRank.ACE, CardSuit.CLUBS));
 		community.add(new Card(CardRank.FIVE, CardSuit.HEARTS));
 		
-		AbstractHandIdentifier sfHandler = new ThreeOfAKindIdentifier(null);
+		AbstractHandIdentifier sfHandler = new TwoPairsIdentifier(null);
 		Hand hand = sfHandler.handle(player, community);
-		assertEquals("Trips (7) - A,K High", hand.toString());
+		assertEquals("Two Pair (K,7) - A High", hand.toString());
 	}
+
 }

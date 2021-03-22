@@ -6,6 +6,8 @@ import com.synacy.poker.hand.Hand;
 import com.synacy.poker.hand.types.TwoPair;
 
 public class TwoPairComparator extends HandCompareStrategy {
+	
+	private final static int EMPTY_CARD = 0;
 
 	/**
 	 * When 1st pair card's ordinal numbers sum is the same, evaluate the next pair
@@ -28,11 +30,14 @@ public class TwoPairComparator extends HandCompareStrategy {
 			int rankValueSecondPairOfTp2 = tp2.getSecondPairCards().stream().mapToInt(card -> card.getRank().ordinal())
 					.sum();
 
+			//if 2nd pair has equal values 
+			//check for the kicker, highest ranking kicker wins.
 			if (rankValueSecondPairOfTp1 == rankValueSecondPairOfTp2) {
-				int kickerOfTp1 = tp1.getOtherCards().stream().mapToInt(card -> card.getRank().ordinal()).sum();
-				int kickerOfTp2 = tp2.getOtherCards().stream().mapToInt(card -> card.getRank().ordinal()).sum();
-
-				return kickerOfTp2 - kickerOfTp1;
+				int kickerOrindalOfTp1 = !tp1.getOtherCards().isEmpty() ? 
+											tp1.getOtherCards().get(0).getRank().ordinal() : EMPTY_CARD;
+				int kickerOrindalOfTp2 = !tp2.getOtherCards().isEmpty() ? 
+											tp2.getOtherCards().get(0).getRank().ordinal() : EMPTY_CARD;
+				return kickerOrindalOfTp2 - kickerOrindalOfTp1;
 			}
 
 			return rankValueSecondPairOfTp2 - rankValueSecondPairOfTp1;

@@ -154,4 +154,32 @@ public class OnePairComparatorTest {
 
 		assertTrue(comparator.compare(p1OnePair, p2OnePair) == 0);
 	}
+	
+	// for kickers high A
+	@Test
+	public void test_compare_7() {
+		List<Card> p1Pair = Arrays.asList(
+				new Card(CardRank.TEN, CardSuit.CLUBS),
+				new Card(CardRank.TEN, CardSuit.HEARTS));
+		
+		List<Card> p1Kickers = Arrays.asList(
+				new Card(CardRank.KING, CardSuit.CLUBS),
+				new Card(CardRank.QUEEN, CardSuit.DIAMONDS),
+				new Card(CardRank.JACK, CardSuit.SPADES));
+
+		OnePair p1OnePair = new OnePair(p1Pair, p1Kickers);
+
+		List<Card> p2Pair = Arrays.asList(
+				new Card(CardRank.TEN, CardSuit.CLUBS),
+				new Card(CardRank.TEN, CardSuit.HEARTS));
+		
+		List<Card> p2Kickers = Arrays.asList(
+				new Card(CardRank.TWO, CardSuit.CLUBS),
+				new Card(CardRank.THREE, CardSuit.DIAMONDS),
+				new Card(CardRank.ACE, CardSuit.SPADES));
+
+		OnePair p2OnePair = new OnePair(p2Pair, p2Kickers);
+
+		assertTrue(comparator.compare(p1OnePair, p2OnePair) > 0);
+	}
 }
