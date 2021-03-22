@@ -4,6 +4,7 @@ import java.util.Comparator;
 
 import org.springframework.stereotype.Component;
 
+import com.synacy.poker.hand.comparators.FlushComparator;
 import com.synacy.poker.hand.comparators.FourOfAKindComparator;
 import com.synacy.poker.hand.comparators.FullHouseComparator;
 import com.synacy.poker.hand.comparators.HandCompareStrategy;
@@ -67,7 +68,7 @@ public class HandComparator implements Comparator<Hand> {
 				comparator = new FullHouseComparator();
 				break;
 			case FLUSH:
-				comparator = new SimpleCardRankComparator();
+				comparator = new FlushComparator();
 				break;
 			case STRAIGHT:
 				comparator = new SimpleCardRankComparator();

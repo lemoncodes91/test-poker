@@ -23,10 +23,6 @@ public class Flush extends Hand {
         return HandType.FLUSH;
     }
 
-    public List<Card> getCards() {
-        return cards;
-    }
-
     /**
      * @return Returns the name of the hand and the highest card, e.g. Flush (K High)
      */
@@ -45,4 +41,7 @@ public class Flush extends Hand {
 		return this.cards.stream().mapToInt(card -> card.getRank().ordinal()).sum();
 	}
 
+    public List<Card> getCards() {
+        return cards;
+    }
 }
